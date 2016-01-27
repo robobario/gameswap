@@ -1,0 +1,8 @@
+server:
+  type: simple
+  applicationContextPath: /
+  rootPath: /service
+  adminContextPath: /admin
+  connector:
+    type: http
+    port: 8080
