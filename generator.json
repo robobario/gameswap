@@ -1,7 +1,37 @@
 {
 	"baseName": "gameswap",
 	"packageName": "org.gameswap",
-	"entities": [],
+	"entities": [
+		{
+			"name": "user",
+			"attrs": [
+				{
+					"attrName": "username",
+					"attrType": "String",
+					"minLength": "6",
+					"maxLength": "18",
+					"enumValues": [],
+					"required": true
+				},
+				{
+					"attrName": "password",
+					"attrType": "String",
+					"minLength": "6",
+					"maxLength": "",
+					"enumValues": [],
+					"required": true
+				},
+				{
+					"attrName": "email",
+					"attrType": "String",
+					"minLength": "",
+					"maxLength": "",
+					"enumValues": [],
+					"required": false
+				}
+			]
+		}
+	],
 	"resources": [
 		{
 			"name": "user",

@@ -1,8 +1,8 @@
 package org.gameswap;
 
 import org.gameswap.config.*;
-
-
+import org.gameswap.daos.*;
+import org.gameswap.models.*;
 import org.gameswap.resources.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -30,6 +30,7 @@ public class GameswapService extends Application<GameswapConfiguration> {
 
     private final HibernateBundle<GameswapConfiguration> hibernateBundle = new HibernateBundle<GameswapConfiguration>(
             
+            User.class,
             Void.class
         ) {
         @Override
@@ -55,9 +56,8 @@ public class GameswapService extends Application<GameswapConfiguration> {
     public void run(GameswapConfiguration configuration,
                     Environment environment) throws Exception {
         environment.jersey().setUrlPattern("/gameswap/*");
-        
-        
-        environment.jersey().register(new UserResource());
-        
+
+        environment.jersey().register(new UserResource(
+            new UserDAO(hibernateBundle.getSessionFactory())));
     }
 }
