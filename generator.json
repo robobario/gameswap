@@ -1,0 +1,66 @@
+{
+	"baseName": "gameswap",
+	"packageName": "org.gameswap",
+	"entities": [
+		{
+			"name": "user",
+			"attrs": [
+				{
+					"attrName": "username",
+					"attrType": "String",
+					"minLength": "6",
+					"maxLength": "18",
+					"enumValues": [],
+					"required": true
+				},
+				{
+					"attrName": "password",
+					"attrType": "String",
+					"minLength": "6",
+					"maxLength": "",
+					"enumValues": [],
+					"required": true
+				},
+				{
+					"attrName": "email",
+					"attrType": "String",
+					"minLength": "",
+					"maxLength": "",
+					"enumValues": [],
+					"required": false
+				}
+			]
+		}
+	],
+	"resources": [
+		{
+			"name": "user",
+			"methods": [
+				{
+					"methodName": "getuser",
+					"methodType": "GET",
+					"methodPath": "/user/{userid}",
+					"formParams": []
+				},
+				{
+					"methodName": "putUser",
+					"methodType": "PUT",
+					"methodPath": "/user/{userid}",
+					"formParams": []
+				},
+				{
+					"methodName": "newUser",
+					"methodType": "POST",
+					"methodPath": "/user/{userid}",
+					"formParams": []
+				},
+				{
+					"methodName": "deleteUser",
+					"methodType": "DELETE",
+					"methodPath": "/user/{userid}",
+					"formParams": []
+				}
+			]
+		}
+	]
+}

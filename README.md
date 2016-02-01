@@ -1,5 +1,9 @@
-# kafka-watcher
+# gameswap
 
-build: `mvn clean install`
+Based on https://github.com/rayokota/generator-angular-dropwizard
 
-run: `java -jar target/kafka-watcher-1.0-SNAPSHOT.jar server`
+Local development
+
+`mvn compile`
+
+`mvn exec:exec -pl gameswap-service`
