@@ -1,0 +1,36 @@
+{
+	"baseName": "gameswap",
+	"packageName": "org.gameswap",
+	"entities": [],
+	"resources": [
+		{
+			"name": "user",
+			"methods": [
+				{
+					"methodName": "getuser",
+					"methodType": "GET",
+					"methodPath": "/user/{userid}",
+					"formParams": []
+				},
+				{
+					"methodName": "putUser",
+					"methodType": "PUT",
+					"methodPath": "/user/{userid}",
+					"formParams": []
+				},
+				{
+					"methodName": "newUser",
+					"methodType": "POST",
+					"methodPath": "/user/{userid}",
+					"formParams": []
+				},
+				{
+					"methodName": "deleteUser",
+					"methodType": "DELETE",
+					"methodPath": "/user/{userid}",
+					"formParams": []
+				}
+			]
+		}
+	]
+}
