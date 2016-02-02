@@ -12,6 +12,10 @@ public class GameswapConfiguration extends Configuration {
     @JsonProperty
     private String sampleProperty;
 
+    @NotNull
+    @JsonProperty
+    private boolean redirectAllToHttps = false;
+
     @Valid
     @NotNull
     @JsonProperty
@@ -27,5 +31,13 @@ public class GameswapConfiguration extends Configuration {
 
     public void setDataSourceFactory(DataSourceFactory database) {
         this.database = database;
+    }
+
+    public boolean isRedirectAllToHttps() {
+        return redirectAllToHttps;
+    }
+
+    public void setRedirectAllToHttps(boolean redirectAllToHttps) {
+        this.redirectAllToHttps = redirectAllToHttps;
     }
 }

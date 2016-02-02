@@ -1,5 +1,7 @@
 sampleProperty: hello!
 
+redirectAllToHttps: false
+
 # Database settings.
 database:
   driverClass: org.apache.derby.jdbc.EmbeddedDriver
