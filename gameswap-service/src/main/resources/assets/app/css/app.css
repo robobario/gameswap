@@ -3,3 +3,62 @@ body {
   padding: 10px;
   background-color: #ECF0F1;
 }
+
+.input-ion {
+  color: #555;
+  top: -32px;
+  left: 20px;
+  position: relative;
+}
+
+.center-form {
+  width: 330px;
+  margin: 12% auto;
+}
+
+.signup-or-separator {
+  position: relative;
+  height: 34px;
+  text-align: center;
+  background: none;
+}
+
+.signup-or-separator hr {
+  width: 90%;
+  margin: -16px auto 10px auto;
+  border-top: 1px solid #dce0e0;
+}
+
+.panel {
+  box-shadow: 0 8px 17px rgba(0, 0, 0, 0.2);
+}
+
+.password-strength-indicator {
+  position: relative;
+  top: -35px;
+  right: 0;
+  padding: 0 15px;
+  float: right;
+}
+
+.password-strength-indicator span {
+  display: block;
+  width: 5px;
+  height: 5px;
+  margin-bottom: 2px;
+  background: #ebeef1;
+  border-radius: 5px;
+}
+
+.has-feedback .form-control {
+  padding-left: 42.5px;
+}
+
+.btn-google-plus {
+  color: #ebeef1;
+  background: #dd4b39;
+}
+
+.ion-social-googleplus {
+  margin-right: 10px;
+}

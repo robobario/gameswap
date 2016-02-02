@@ -1,4 +1,4 @@
-angular.module('MyApp')
+angular.module('gameswap')
   .controller('ProfileCtrl', function($scope, $auth, toastr, Account) {
     $scope.getProfile = function() {
       Account.getProfile()

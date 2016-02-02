@@ -1,4 +1,4 @@
-angular.module('MyApp')
+angular.module('gameswap')
   .controller('NavbarCtrl', function($scope, $auth) {
     $scope.isAuthenticated = function() {
       return $auth.isAuthenticated();

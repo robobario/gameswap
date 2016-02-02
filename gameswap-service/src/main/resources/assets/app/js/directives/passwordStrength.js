@@ -1,4 +1,4 @@
-angular.module('MyApp')
+angular.module('gameswap')
   .directive('passwordStrength', function() {
     return {
       restrict: 'A',

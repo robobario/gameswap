@@ -1,4 +1,4 @@
-angular.module('MyApp')
+angular.module('gameswap')
   .controller('SignupCtrl', function($scope, $location, $auth, toastr) {
     $scope.signup = function() {
       $auth.signup($scope.user)
