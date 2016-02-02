@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Tue Feb 02 13:22:47 NZDT 2016:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.1 - (1616546): instance a816c00e-0152-9f5c-3a0b-000013ed9a68 
+Tue Feb 02 16:08:46 NZDT 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.1 - (1616546): instance a816c00e-0152-9ff4-313d-000013c053c8 
 on database directory /private/tmp/mydb with class loader sun.misc.Launcher$AppClassLoader@14dad5dc 
 Loaded from file:/Users/markt/.m2/repository/org/apache/derby/derby/10.11.1.1/derby-10.11.1.1.jar
 java.vendor=Oracle Corporation
