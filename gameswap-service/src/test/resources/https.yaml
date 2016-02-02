@@ -1,0 +1,30 @@
+sampleProperty: hello!
+
+redirectAllToHttps: true
+
+# Database settings.
+database:
+  driverClass: org.apache.derby.jdbc.EmbeddedDriver
+  url: jdbc:derby:memory:mydb;create=true
+  user: admin
+  password: admin
+  minSize: 8
+  maxSize: 200
+  validationQuery: values 1
+  properties:
+    hibernate.temp.use_jdbc_metadata_defaults: false
+    hibernate.dialect: org.hibernate.dialect.DerbyTenSevenDialect
+    hibernate.hbm2ddl.auto: update
+    hibernate.format_sql: true
+
+server:
+  rootPath: '/gameswap/*'
+  applicationConnectors:
+    - type: http
+      port: 0
+  adminConnectors:
+    - type: http
+      port: 0
+  requestLog:
+    appenders:
+      - type: console
