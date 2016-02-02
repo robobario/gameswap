@@ -1,8 +1,8 @@
 package org.gameswap.daos;
 
 import com.google.common.base.Optional;
-import org.gameswap.models.User;
 import io.dropwizard.hibernate.AbstractDAO;
+import org.gameswap.models.User;
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 
@@ -22,6 +22,7 @@ public class UserDAO extends AbstractDAO<User> {
         super(provider);
     }
 
+
     /**
      * Returns the {@link User} with the given ID.
      *
@@ -32,6 +33,7 @@ public class UserDAO extends AbstractDAO<User> {
         return Optional.fromNullable(get(id));
     }
 
+
     /**
      * Returns all {@link User} entities.
      *
@@ -40,6 +42,14 @@ public class UserDAO extends AbstractDAO<User> {
     public List<User> findAll() {
         return (List<User>) criteria().list();
     }
+
+
+    public Optional<User> findByName(String username) {
+        List userList = criteria().createCriteria("username", username).list();
+        User user = userList.size() == 1 ? (User) userList.get(0) : null;
+        return Optional.fromNullable(user);
+    }
+
 
     /**
      * Saves the given {@link User}.
@@ -51,6 +61,7 @@ public class UserDAO extends AbstractDAO<User> {
         return persist(entity);
     }
 
+
     /**
      * Merges the given {@link User}.
      *
@@ -60,6 +71,7 @@ public class UserDAO extends AbstractDAO<User> {
     public User merge(User entity) throws HibernateException {
         return (User) currentSession().merge(entity);
     }
+
 
     /**
      * Deletes the given {@link User}.

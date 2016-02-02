@@ -1,13 +1,13 @@
 ----------------------------------------------------------------
-Tue Feb 02 09:06:21 NZDT 2016:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.1 - (1616546): instance a816c00e-0152-9e71-73e5-0000121cfae8 
-on database directory /private/tmp/mydb with class loader sun.misc.Launcher$AppClassLoader@58644d46 
-Loaded from file:/Users/tokumaru/.m2/repository/org/apache/derby/derby/10.11.1.1/derby-10.11.1.1.jar
+Tue Feb 02 13:22:47 NZDT 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.1 - (1616546): instance a816c00e-0152-9f5c-3a0b-000013ed9a68 
+on database directory /private/tmp/mydb with class loader sun.misc.Launcher$AppClassLoader@14dad5dc 
+Loaded from file:/Users/markt/.m2/repository/org/apache/derby/derby/10.11.1.1/derby-10.11.1.1.jar
 java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_31-b13
-user.dir=/Users/tokumaru/Documents/workspace/gameswap/gameswap-service
+java.runtime.version=1.8.0_66-b17
+user.dir=/Users/markt/development/gameswap/gameswap-service
 os.name=Mac OS X
 os.arch=x86_64
-os.version=10.11.3
+os.version=10.11
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''
