@@ -41,7 +41,7 @@ angular.module('gameswap', ['ngResource', 'ui.bootstrap', 'ui.date', 'ui.router'
                 });
 
             $urlRouterProvider.otherwise('/');
-
+            $authProvider.baseUrl = "/gameswap";
             $authProvider.google({
                 clientId: 'Google Client ID'
             });
