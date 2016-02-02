@@ -1,15 +1,15 @@
 'use strict';
 
 angular.module('gameswap')
-  .config(['$routeProvider', function ($routeProvider) {
-    $routeProvider
-      .when('/users', {
-        templateUrl: 'views/user/users.html',
-        controller: 'UserController',
-        resolve:{
-          resolvedUser: ['User', function (User) {
-            return User.query();
-          }]
-        }
-      })
+    .config(['$stateProvider', function ($stateProvider) {
+        $stateProvider
+            .state('users', {
+                templateUrl: 'views/user/users.html',
+                controller: 'UserController',
+                resolve: {
+                    resolvedUser: ['User', function (User) {
+                        return User.query();
+                    }]
+                }
+            })
     }]);

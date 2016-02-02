@@ -1,16 +1,11 @@
 package org.gameswap.resources;
 
-import org.gameswap.daos.UserDAO;
-import org.gameswap.models.User;
 import com.codahale.metrics.annotation.Timed;
 import com.google.common.base.Optional;
-import javax.ws.rs.NotFoundException;
 import io.dropwizard.hibernate.UnitOfWork;
-import io.dropwizard.jersey.params.BooleanParam;
-import io.dropwizard.jersey.params.DateTimeParam;
-import io.dropwizard.jersey.params.IntParam;
 import io.dropwizard.jersey.params.LongParam;
-import org.hibernate.ObjectNotFoundException;
+import org.gameswap.daos.UserDAO;
+import org.gameswap.models.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
