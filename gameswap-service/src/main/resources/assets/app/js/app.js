@@ -43,7 +43,7 @@ angular.module('gameswap', ['ngResource', 'ui.bootstrap', 'ui.date', 'ui.router'
             $urlRouterProvider.otherwise('/');
             $authProvider.baseUrl = "/gameswap";
             $authProvider.google({
-                clientId: 'Google Client ID'
+                clientId: '437170734308-t3519t3mtgl8p5ipqdi4jpns0r5pa36g.apps.googleusercontent.com'
             });
 
             function skipIfLoggedIn($q, $auth) {
