@@ -45,9 +45,10 @@ public class UserDAO extends AbstractDAO<User> {
 
 
     public Optional<User> findByName(String username) {
-        List userList = criteria().createCriteria("username", username).list();
-        User user = userList.size() == 1 ? (User) userList.get(0) : null;
-        return Optional.fromNullable(user);
+        User foundUser = (User) namedQuery("User.findByName")
+                .setParameter("username", username)
+                .uniqueResult();
+        return Optional.fromNullable(foundUser);
     }
 
 
@@ -80,5 +81,16 @@ public class UserDAO extends AbstractDAO<User> {
      */
     public void delete(User entity) throws HibernateException {
         currentSession().delete(entity);
+    }
+
+    public Optional<User> findById(long id) {
+        return Optional.fromNullable(get(id));
+    }
+
+    public Optional<User> findByProvider(User.Provider provider, String id) {
+        User foundUser = (User) namedQuery(String.format("User.findBy%s", provider.capitalize()))
+                .setParameter(provider.getName(), id)
+                .uniqueResult();
+        return Optional.fromNullable(foundUser);
     }
 }

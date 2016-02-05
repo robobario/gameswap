@@ -1,6 +1,7 @@
 sampleProperty: hello!
 
 redirectAllToHttps: true
+googleSecret: ${GOOGLE_SECRET:-fakefakefake}
 
 # Database settings.
 database:
