@@ -1,14 +1,14 @@
-package org.gameswap;
+package org.gameswap.application;
 
 
 import com.nimbusds.jose.JOSEException;
-import com.nimbusds.jwt.JWTClaimsSet;
 import io.dropwizard.testing.ResourceHelpers;
 import io.dropwizard.testing.junit.DropwizardAppRule;
-import org.gameswap.auth.AuthUtils;
-import org.gameswap.config.GameswapConfiguration;
-import org.gameswap.models.Token;
-import org.gameswap.models.User;
+import org.gameswap.application.GameswapService;
+import org.gameswap.web.authentication.AuthUtils;
+import org.gameswap.application.GameswapConfiguration;
+import org.gameswap.model.Token;
+import org.gameswap.model.User;
 import org.glassfish.jersey.client.JerseyClientBuilder;
 import org.junit.Rule;
 import org.junit.Test;
@@ -18,7 +18,6 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Response;
 
 import java.text.ParseException;
-import java.util.Map;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;

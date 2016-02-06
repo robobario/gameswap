@@ -1,11 +1,11 @@
-package org.gameswap.resources;
+package org.gameswap.web.resource;
 
 import com.codahale.metrics.annotation.Timed;
 import com.google.common.base.Optional;
 import io.dropwizard.hibernate.UnitOfWork;
 import io.dropwizard.jersey.params.LongParam;
-import org.gameswap.daos.UserDAO;
-import org.gameswap.models.User;
+import org.gameswap.persistance.UserDAO;
+import org.gameswap.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

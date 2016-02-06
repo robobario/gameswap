@@ -1,8 +1,8 @@
-package org.gameswap.daos;
+package org.gameswap.persistance;
 
 import com.google.common.base.Optional;
 import io.dropwizard.hibernate.AbstractDAO;
-import org.gameswap.models.User;
+import org.gameswap.model.User;
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 

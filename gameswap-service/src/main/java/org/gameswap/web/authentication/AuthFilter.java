@@ -1,4 +1,4 @@
-package org.gameswap.auth;
+package org.gameswap.web.authentication;
 
 import java.io.IOException;
 import java.text.ParseException;

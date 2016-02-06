@@ -1,12 +1,12 @@
-package org.gameswap.security;
+package org.gameswap.web.authentication;
 
 import com.google.common.base.Optional;
 import io.dropwizard.auth.AuthenticationException;
 import io.dropwizard.auth.Authenticator;
 import io.dropwizard.auth.basic.BasicCredentials;
-import org.gameswap.daos.UserDAO;
-import org.gameswap.models.User;
-import org.gameswap.models.UserPrincipal;
+import org.gameswap.persistance.UserDAO;
+import org.gameswap.model.User;
+import org.gameswap.model.UserPrincipal;
 
 public class SimpleAuthenticator implements Authenticator<BasicCredentials, UserPrincipal> {
 

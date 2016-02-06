@@ -1,11 +1,10 @@
-package org.gameswap.models;
+package org.gameswap.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Objects;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity

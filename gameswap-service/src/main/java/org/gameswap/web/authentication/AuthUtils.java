@@ -1,9 +1,9 @@
-package org.gameswap.auth;
+package org.gameswap.web.authentication;
 
 import java.text.ParseException;
 
 import com.nimbusds.jose.crypto.MACVerifier;
-import org.gameswap.models.Token;
+import org.gameswap.model.Token;
 import org.joda.time.DateTime;
 
 import com.nimbusds.jose.JOSEException;
