@@ -2,26 +2,16 @@ package org.gameswap.application;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import io.dropwizard.Application;
-import io.dropwizard.assets.AssetsBundle;
-import io.dropwizard.auth.basic.BasicCredentialAuthFilter;
-import io.dropwizard.client.JerseyClientBuilder;
-import io.dropwizard.configuration.EnvironmentVariableSubstitutor;
-import io.dropwizard.configuration.SubstitutingSourceProvider;
-import io.dropwizard.db.DataSourceFactory;
-import io.dropwizard.hibernate.HibernateBundle;
-import io.dropwizard.jetty.MutableServletContextHandler;
-import io.dropwizard.setup.Bootstrap;
-import io.dropwizard.setup.Environment;
+
 import org.eclipse.jetty.servlet.FilterHolder;
-import org.gameswap.web.authentication.AuthFilter;
-import org.gameswap.persistance.UserDAO;
 import org.gameswap.model.User;
 import org.gameswap.model.UserPrincipal;
+import org.gameswap.persistance.UserDAO;
+import org.gameswap.web.authentication.AuthFilter;
+import org.gameswap.web.authentication.SimpleAuthenticator;
 import org.gameswap.web.resource.AuthResource;
 import org.gameswap.web.resource.TestResource;
 import org.gameswap.web.resource.UserResource;
-import org.gameswap.web.authentication.SimpleAuthenticator;
 
 import java.io.IOException;
 import java.util.EnumSet;
@@ -37,11 +27,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.client.Client;
 
-public class GameswapService extends Application<GameswapConfiguration> {
+import io.dropwizard.Application;
+import io.dropwizard.assets.AssetsBundle;
+import io.dropwizard.auth.basic.BasicCredentialAuthFilter;
+import io.dropwizard.client.JerseyClientBuilder;
+import io.dropwizard.configuration.EnvironmentVariableSubstitutor;
+import io.dropwizard.configuration.SubstitutingSourceProvider;
+import io.dropwizard.db.DataSourceFactory;
+import io.dropwizard.hibernate.HibernateBundle;
+import io.dropwizard.jetty.MutableServletContextHandler;
+import io.dropwizard.setup.Bootstrap;
+import io.dropwizard.setup.Environment;
 
-    public static void main(String[] args) throws Exception {
-        new GameswapService().run(args);
-    }
+public class GameswapService extends Application<GameswapConfiguration> {
 
     private final HibernateBundle<GameswapConfiguration> hibernateBundle = new HibernateBundle<GameswapConfiguration>(User.class, Void.class) {
 
@@ -51,6 +49,9 @@ public class GameswapService extends Application<GameswapConfiguration> {
         }
     };
 
+    public static void main(String[] args) throws Exception {
+        new GameswapService().run(args);
+    }
 
     @Override
     public String getName() {
@@ -92,7 +93,7 @@ public class GameswapService extends Application<GameswapConfiguration> {
 
     private void enableEnvironmentConfiguration(Bootstrap<GameswapConfiguration> bootstrap) {
         bootstrap.setConfigurationSourceProvider(
-            new SubstitutingSourceProvider(bootstrap.getConfigurationSourceProvider(), new EnvironmentVariableSubstitutor(false)));
+                new SubstitutingSourceProvider(bootstrap.getConfigurationSourceProvider(), new EnvironmentVariableSubstitutor(false)));
     }
 
 
@@ -114,8 +115,7 @@ public class GameswapService extends Application<GameswapConfiguration> {
                 if (uri.toString().startsWith("http://")) {
                     String location = "https://" + uri.substring("http://".length());
                     ((HttpServletResponse) response).sendRedirect(location);
-                }
-                else {
+                } else {
                     chain.doFilter(request, response);
                 }
             }

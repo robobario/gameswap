@@ -1,5 +1,11 @@
 package org.gameswap.web.authentication;
 
+import com.nimbusds.jose.JOSEException;
+import com.nimbusds.jwt.JWTClaimsSet;
+
+import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
+
 import java.io.IOException;
 import java.text.ParseException;
 
@@ -11,12 +17,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.nimbusds.jose.JOSEException;
-import org.apache.commons.lang3.StringUtils;
-import org.joda.time.DateTime;
-
-import com.nimbusds.jwt.JWTClaimsSet;
 
 public class AuthFilter implements Filter {
 
