@@ -1,4 +1,4 @@
-package org.gameswap.models;
+package org.gameswap.model;
 
 import javax.security.auth.Subject;
 import java.security.Principal;

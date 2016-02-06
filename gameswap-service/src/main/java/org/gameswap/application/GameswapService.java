@@ -1,4 +1,4 @@
-package org.gameswap;
+package org.gameswap.application;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -14,15 +14,14 @@ import io.dropwizard.jetty.MutableServletContextHandler;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import org.eclipse.jetty.servlet.FilterHolder;
-import org.gameswap.auth.AuthFilter;
-import org.gameswap.config.GameswapConfiguration;
-import org.gameswap.daos.UserDAO;
-import org.gameswap.models.User;
-import org.gameswap.models.UserPrincipal;
-import org.gameswap.resources.AuthResource;
-import org.gameswap.resources.TestResource;
-import org.gameswap.resources.UserResource;
-import org.gameswap.security.SimpleAuthenticator;
+import org.gameswap.web.authentication.AuthFilter;
+import org.gameswap.persistance.UserDAO;
+import org.gameswap.model.User;
+import org.gameswap.model.UserPrincipal;
+import org.gameswap.web.resource.AuthResource;
+import org.gameswap.web.resource.TestResource;
+import org.gameswap.web.resource.UserResource;
+import org.gameswap.web.authentication.SimpleAuthenticator;
 
 import java.io.IOException;
 import java.util.EnumSet;

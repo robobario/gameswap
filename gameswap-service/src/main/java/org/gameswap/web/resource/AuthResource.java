@@ -1,4 +1,4 @@
-package org.gameswap.resources;
+package org.gameswap.web.resource;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -7,12 +7,12 @@ import com.nimbusds.jose.JOSEException;
 import io.dropwizard.hibernate.UnitOfWork;
 import io.dropwizard.jersey.errors.ErrorMessage;
 import org.apache.commons.lang3.StringUtils;
-import org.gameswap.auth.AuthUtils;
-import org.gameswap.config.GameswapConfiguration;
-import org.gameswap.daos.UserDAO;
-import org.gameswap.models.Token;
-import org.gameswap.models.User;
-import org.gameswap.models.User.Provider;
+import org.gameswap.web.authentication.AuthUtils;
+import org.gameswap.application.GameswapConfiguration;
+import org.gameswap.persistance.UserDAO;
+import org.gameswap.model.Token;
+import org.gameswap.model.User;
+import org.gameswap.model.User.Provider;
 import org.gameswap.security.PasswordService;
 import org.hibernate.validator.constraints.NotBlank;
 

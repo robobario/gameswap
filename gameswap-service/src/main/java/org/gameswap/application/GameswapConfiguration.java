@@ -1,4 +1,4 @@
-package org.gameswap.config;
+package org.gameswap.application;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
