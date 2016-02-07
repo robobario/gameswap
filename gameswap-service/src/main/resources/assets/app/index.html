@@ -27,11 +27,11 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul ng-if="!isAuthenticated()" class="nav navbar-nav pull-right" ng-cloak>
-                <li><a ui-sref="login">Login</a></li>
-                <li><a ui-sref="signup">Sign up</a></li>
+                <li><a ui-sref="login" data-toggle="collapse" data-target=".navbar-ex1-collapse">Login</a></li>
+                <li><a ui-sref="signup" data-toggle="collapse" data-target=".navbar-ex1-collapse">Sign up</a></li>
             </ul>
             <ul ng-if="isAuthenticated()" class="nav navbar-nav pull-right" ng-cloak>
-                <li><a ui-sref="logout">Logout</a></li>
+                <li><a ui-sref="logout" data-toggle="collapse" data-target=".navbar-ex1-collapse">Logout</a></li>
             </ul>
         </div>
         <!-- /.navbar-collapse -->
@@ -43,6 +43,7 @@
 </div>
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
 <script src="bower_components/jquery-ui/jquery-ui.min.js"></script>
+<script src="bower_components/bootstrap-css/js/bootstrap.min.js"></script>
 <script src="bower_components/lodash/dist/lodash.min.js"></script>
 <script src="bower_components/angular/angular.min.js"></script>
 <script src="bower_components/angular-animate/angular-animate.min.js"></script>
