@@ -1,9 +1,10 @@
-package org.gameswap.models;
+package org.gameswap.model;
 
-import javax.security.auth.Subject;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.security.auth.Subject;
 
 public class UserPrincipal implements Principal {
 
