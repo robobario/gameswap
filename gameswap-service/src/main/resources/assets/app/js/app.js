@@ -14,7 +14,6 @@ angular.module('gameswap', ['ngResource', 'ui.bootstrap', 'ui.date', 'ui.router'
                     templateUrl: 'views/partials/login.html',
                     controller: 'LoginCtrl',
                     resolve: {
-
                         skipIfLoggedIn: skipIfLoggedIn
                     }
                 })
@@ -30,14 +29,6 @@ angular.module('gameswap', ['ngResource', 'ui.bootstrap', 'ui.date', 'ui.router'
                     url: '/logout',
                     template: null,
                     controller: 'LogoutCtrl'
-                })
-                .state('profile', {
-                    url: '/profile',
-                    templateUrl: 'views/partials/profile.html',
-                    controller: 'ProfileCtrl',
-                    resolve: {
-                        loginRequired: loginRequired
-                    }
                 });
 
             $urlRouterProvider.otherwise('/');

@@ -3,6 +3,14 @@ body {
   padding: 10px;
   background-color: #ECF0F1;
 }
+/* Prevent components from flickering */
+[ng\:cloak], [ng-cloak], .ng-cloak {
+  display: none !important;
+}
+
+#toast-container {
+  margin-top: 50px;
+}
 
 .input-ion {
   color: #555;
