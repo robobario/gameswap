@@ -1,6 +1,6 @@
 describe('LoginCtrl', function () {
     var $httpBackend, $rootScope, controller, $auth, $location;
-    var loginUrl = '/gameswap/auth/login';
+    var loginUrl = '/gameswap/auth/logout';
 
     // Set up the module
     beforeEach(module('gameswap'));
@@ -32,8 +32,8 @@ describe('LoginCtrl', function () {
     });
 
 
-    describe('login()', function() {
-        it('successful login should fetch authentication token', function () {
+    describe('logout()', function() {
+        it('successful login followed by logout results in unauthenticated', function () {
             $httpBackend.when('POST', loginUrl).respond(200, {token: 'somelongtoken'});
             $httpBackend.expectPOST(loginUrl);
             $rootScope.login();
@@ -42,9 +42,9 @@ describe('LoginCtrl', function () {
         });
 
 
-        it('unsuccessful login, user is not authenticated', function () {
+        it('unser that is not signed in has no change on attempted logout', function () {
             //// Notice how you can change the response even after it was set
-            $rootScope.login();
+            $rootScope.logout();
             $httpBackend.when('POST', loginUrl).respond(401, {"code": 500, "message": "Wrong email and/or password"});
             $httpBackend.flush();
             expect($auth.isAuthenticated()).toEqual(false);

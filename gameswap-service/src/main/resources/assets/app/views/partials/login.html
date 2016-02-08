@@ -1,31 +1,28 @@
-<div class="container">
-  <div class="row col-md-4 col-md-offset-4">
-    <div class="center-form panel">
-      <div class="panel-body">
-        <h2 class="text-center">Log in</h2>
-        <form method="post" ng-submit="login()" name="loginForm">
-          <div class="form-group has-feedback">
-            <input class="form-control input-lg" type="text" name="username" ng-model="user.username" placeholder="Username" required autofocus>
-            <i class="input-ion ion-person"></i>
-          </div>
-          <div class="form-group has-feedback">
-            <input class="form-control input-lg" type="password" name="password" ng-model="user.password" placeholder="Password" required>
-            <i class="input-ion ion-key"></i>
-          </div>
-          <button type="submit" ng-disabled="loginForm.$invalid" class="btn btn-lg  btn-block btn-success">Log in</button>
-          <br/>
-          <p class="text-center text-muted">
-            <small>Don't have an account yet? <a ui-sref="signup">Sign up</a></small>
-          </p>
-          <div class="signup-or-separator">
-            <h6 class="text">or</h6>
-            <hr>
-          </div>
-        </form>
-        <button class="btn btn-block btn-google-plus" ng-click="authenticate('google')">
-          <i class="ion-social-googleplus"></i>Sign in with Google
-        </button>
-      </div>
+<div class="row">
+    <div class=" col m4 offset-m4">
+        <div class="card-panel">
+            <h3>Log in</h3>
+            <form method="post" ng-submit="login()" name="loginForm">
+                <div class="">
+                    <input class="input-field" type="text" name="username" ng-model="user.username"
+                           placeholder="Username" required autofocus>
+                </div>
+                <div class="">
+                    <input class="input-field" type="password" name="password" ng-model="user.password"
+                           placeholder="Password" required>
+                </div>
+                <button class="btn amber login-btn" type="submit" ng-disabled="loginForm.$invalid">Log in
+                </button>
+                <br/>
+
+
+            </form>
+            <a class="btn white text-black google-sign-in-btn" ng-click="authenticate('google')">
+                Sign in with Google
+            </a>
+            <blockquote class="no-account-text">
+                <small>Don't have an account yet? <a ui-sref="signup">Sign up</a></small>
+            </blockquote>
+        </div>
     </div>
-  </div>
 </div>
