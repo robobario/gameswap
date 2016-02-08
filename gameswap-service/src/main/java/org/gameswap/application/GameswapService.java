@@ -36,6 +36,7 @@ import io.dropwizard.configuration.SubstitutingSourceProvider;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.jetty.MutableServletContextHandler;
+import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 
@@ -64,8 +65,18 @@ public class GameswapService extends Application<GameswapConfiguration> {
         enableEnvironmentConfiguration(bootstrap);
         bootstrap.addBundle(new AssetsBundle("/assets/app/", "/", "index.html"));
         bootstrap.addBundle(hibernateBundle);
+        addMigrations(bootstrap);
         ObjectMapper mapper = bootstrap.getObjectMapper();
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+    }
+
+    private void addMigrations(Bootstrap<GameswapConfiguration> bootstrap) {
+        bootstrap.addBundle(new MigrationsBundle<GameswapConfiguration>() {
+            @Override
+            public DataSourceFactory getDataSourceFactory(GameswapConfiguration configuration) {
+                return configuration.getDataSourceFactory();
+            }
+        });
     }
 
 
