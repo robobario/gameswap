@@ -10,6 +10,7 @@ describe('LoginCtrl', function () {
         $httpBackend = $injector.get('$httpBackend');
         //// Get hold of a scope (i.e. the root scope)
         $rootScope = $injector.get('$rootScope');
+        console.log("LOGGING");
         $auth = $injector.get('$auth');
         $auth.logout();
         $location = $injector.get('$location');

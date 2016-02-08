@@ -1,9 +1,9 @@
 angular.module('gameswap')
-  .controller('LogoutCtrl', function($location, $auth, toastr) {
+  .controller('LogoutCtrl', function($state, $auth, toastr) {
     if (!$auth.isAuthenticated()) { return; }
     $auth.logout()
       .then(function() {
         toastr.info('You have been logged out');
-        $location.path('/');
+        $state.go("home");
       });
   });

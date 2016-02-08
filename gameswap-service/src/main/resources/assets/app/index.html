@@ -13,20 +13,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 <body class="amber">
-<nav ng-controller="NavbarCtrl" class="white black-text-nav">
+<nav ng-controller="NavbarCtrl" class="white black-text-nav no-animate">
     <div class="container">
-        <div class="nav-wrapper" ng-controller="sideNav">
+        <div class="nav-wrapper">
             <a ui-sref="home" class="brand-logo">Gameswap</a>
             <a href="#" data-activates="mobile-menu" class="button-collapse"><i class="material-icons">menu</i></a>
-            <ul class="right hide-on-med-and-down cyan-text" ng-cloak>
-                <li ng-if="!isAuthenticated()"><a ui-sref="login">Login</a></li>
-                <li ng-if="!isAuthenticated()"><a ui-sref="signup">Sign up</a></li>
-                <li ng-if="isAuthenticated()"><a ui-sref="logout">Logout</a></li>
+            <ul class="right hide-on-med-and-down cyan-text">
+                <li ng-show="!isAuthenticated()"><a ui-sref="login" ng-cloak>Login</a></li>
+                <li ng-show="!isAuthenticated()"><a ui-sref="signup" ng-cloak>Sign up</a></li>
+                <li ng-show="isAuthenticated()"><a ui-sref="logout" ng-cloak>Logout</a></li>
             </ul>
             <ul class="side-nav" id="mobile-menu">
-                <li ng-if="!isAuthenticated()"><a ng-click="click('login')">Login</a></li>
-                <li ng-if="!isAuthenticated()"><a ng-click="click('signup')">Sign up</a></li>
-                <li ng-if="isAuthenticated()"><a ng-click="click('logout')">Logout</a></li>
+                <li ng-show="!isAuthenticated()"><a ng-click="click('login')" ng-cloak>Login</a></li>
+                <li ng-show="!isAuthenticated()"><a ng-click="click('signup')" ng-cloak>Sign up</a></li>
+                <li ng-show="isAuthenticated()"><a ng-click="click('logout')" ng-cloak>Logout</a></li>
             </ul>
         </div>
     </div>
@@ -41,7 +41,8 @@
 <script src="bower_components/lodash/dist/lodash.min.js"></script>
 <script src="bower_components/angular/angular.min.js"></script>
 <script src="bower_components/angular-animate/angular-animate.min.js"></script>
-<script src="bower_components/angular-resource/angular-resource.js"></script>
+<script src="bower_components/angular-resource/angular-resource.min.js"></script>
+<script src="bower_components/angular-messages/angular-messages.min.js"></script>
 <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
 <script src="bower_components/satellizer/satellizer.min.js"></script>
 <script src="bower_components/angular-toastr/dist/angular-toastr.tpls.min.js"></script>
@@ -58,10 +59,6 @@
 <script src="js/controllers/login.js"></script>
 <script src="js/controllers/logout.js"></script>
 <script src="js/controllers/signup.js"></script>
-<script src="js/controllers/sidebarnav.js"></script>
-
-<script src="js/directives/passwordMatch.js"></script>
-<script src="js/directives/passwordStrength.js"></script>
 
 </body>
 </html>

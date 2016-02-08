@@ -3,38 +3,30 @@
         <div class="card-panel">
             <h3>Sign up</h3>
             <form method="post" ng-submit="signup()" name="signupForm">
-                <div ng-class="{ 'has-error' : signupForm.username.$invalid && signupForm.username.$dirty }">
-                    <input type="text" name="username" ng-model="user.username" placeholder="Username" required
-                           autofocus>
-                    <div ng-if="signupForm.username.$dirty" ng-messages="signupForm.username.$error">
-                        <div ng-message="required" class="red-text">You must enter a username.</div>
-                    </div>
+                <input type="text" name="username" ng-model="user.username" placeholder="Username" ng-minlength="6"
+                       required
+                       autofocus>
+                <div ng-show="signupForm.username.$touched" ng-messages="signupForm.username.$error">
+                    <div ng-message="required" class="red-text">You must enter a username.</div>
+                    <div ng-message="minlength" class="red-text">Pick a username with at least 6 characters</div>
                 </div>
-                <div ng-class="{ 'has-error' : signupForm.email.$invalid && signupForm.email.$dirty }">
-                    <input type="email" id="email" name="email" ng-model="user.email"
-                           placeholder="Email (optional)">
-                    <div ng-if="signupForm.email.$dirty" ng-messages="signupForm.email.$error">
-                        <div ng-message="required" class="red-text">Your email address is required.</div>
-                        <div ng-message="pattern" class="red-text">Your email address is invalid.</div>
-                    </div>
+                <input type="email" name="email" ng-model="user.email"
+                       placeholder="Email (optional)">
+                <div ng-show="signupForm.email.$touched" ng-messages="signupForm.email.$error">
+                    <div ng-message="email" class="red-text">Your email address is invalid.</div>
                 </div>
-                <div ng-class="{ 'has-error' : signupForm.password.$invalid && signupForm.password.$dirty }">
-                    <input password-strength type="password" name="password"
-                           ng-model="user.password" placeholder="Password" required>
-                    <div ng-if="signupForm.password.$dirty" ng-messages="signupForm.password.$error">
-                        <div ng-message="required">Password is required.</div>
-                    </div>
+                <input type="password" name="password"
+                       ng-model="user.password" placeholder="Password" required minlength="6">
+                <div ng-if="signupForm.password.$dirty" ng-messages="signupForm.password.$error">
+                    <div ng-message="required" class="red-text">Password is required.</div>
+                    <div ng-message="minlength" class="red-text">Password must be at least 6 characters.</div>
                 </div>
-                <div ng-class="{ 'has-error' : signupForm.confirmPassword.$invalid && signupForm.confirmPassword.$dirty }">
-                    <input password-match="user.password" type="password"
-                           name="confirmPassword" ng-model="confirmPassword" placeholder="Confirm Password">
-                    <div ng-if="signupForm.confirmPassword.$dirty" ng-messages="signupForm.confirmPassword.$error">
-                        <div ng-message="compareTo">Password must match.</div>
-                    </div>
+                <input password-match="user.password" type="password"
+                       name="confirmPassword" ng-model="confirmPassword" placeholder="Confirm Password">
+                <div ng-if="signupForm.confirmPassword.$dirty" ng-messages="signupForm.confirmPassword.$error">
+                    <div ng-message="compareTo" class="red-text">Your password doesn't match.</div>
                 </div>
-                <p class="text-center text-muted">By clicking on Sign up, you agree to <a href="#">terms &
-                    conditions</a> and <a href="#">privacy policy</a></p>
-                <button type="submit" ng-disabled="signupForm.$invalid" class="btn btn-lg btn-block btn-primary">
+                <button type="submit" ng-disabled="signupForm.$invalid" class="btn amber login-signup-btn">
                     Sign up
                 </button>
                 <br/>
