@@ -14,8 +14,6 @@
     <url></url>
 
     <modules>
-        <module>gameswap-api</module>
-        <module>gameswap-client</module>
         <module>gameswap-service</module>
         <module>gameswap-worker</module>
     </modules>
