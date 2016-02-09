@@ -5,14 +5,14 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 
 import org.eclipse.jetty.servlet.FilterHolder;
 import org.gameswap.model.User;
-import org.gameswap.model.UserPrincipal;
 import org.gameswap.persistance.UserDAO;
 import org.gameswap.web.HttpsForwardingFilter;
-import org.gameswap.web.authentication.AuthFilter;
-import org.gameswap.web.authentication.SimpleAuthenticator;
+import org.gameswap.web.authentication.JwtAuthFilter;
 import org.gameswap.web.resource.AuthResource;
 import org.gameswap.web.resource.TestResource;
 import org.gameswap.web.resource.UserResource;
+import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
+import org.hibernate.SessionFactory;
 
 import java.util.EnumSet;
 
@@ -21,7 +21,7 @@ import javax.ws.rs.client.Client;
 
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
-import io.dropwizard.auth.basic.BasicCredentialAuthFilter;
+import io.dropwizard.auth.AuthDynamicFeature;
 import io.dropwizard.client.JerseyClientBuilder;
 import io.dropwizard.configuration.ConfigurationSourceProvider;
 import io.dropwizard.configuration.EnvironmentVariableSubstitutor;
@@ -86,16 +86,20 @@ public class GameswapService extends Application<GameswapConfiguration> {
         addFilters(configuration, environment);
         environment.jersey().setUrlPattern("/gameswap/*");
         final Client client = new JerseyClientBuilder(environment).using(configuration.getJerseyClient()).build(getName());
-        UserDAO dao = new UserDAO(hibernateBundle.getSessionFactory());
+        UserDAO dao = new UserDAO(getSessionFactory());
         registerResources(configuration, environment, client, dao);
-        environment.jersey().register(new BasicCredentialAuthFilter.Builder<UserPrincipal>().setAuthenticator(new SimpleAuthenticator(dao)));
+        environment.jersey().register(new AuthDynamicFeature(new JwtAuthFilter(dao, getSessionFactory())));
+        environment.jersey().register(RolesAllowedDynamicFeature.class);
+    }
+
+    public SessionFactory getSessionFactory() {
+        return hibernateBundle.getSessionFactory();
     }
 
     private void addFilters(GameswapConfiguration configuration, Environment environment) {
         if (configuration.isRedirectAllToHttps()) {
             addHttpsForward(environment.getApplicationContext());
         }
-        addAuthFilter(environment);
     }
 
 
@@ -113,14 +117,7 @@ public class GameswapService extends Application<GameswapConfiguration> {
     }
 
 
-    private void addAuthFilter(Environment environment) {
-        environment.servlets().addFilter("AuthFilter", new AuthFilter()).addMappingForUrlPatterns(null, true, "/gameswap/v1/*");
-
-    }
-
-
     private void addHttpsForward(MutableServletContextHandler handler) {
         handler.addFilter(new FilterHolder(new HttpsForwardingFilter()), "/*", EnumSet.allOf(DispatcherType.class));
     }
-
 }
