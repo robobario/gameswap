@@ -1,0 +1,6 @@
+{
+  "awsKeyId": "${AWS_KEY_ID:-key}",
+  "awsSecretAccessKey": "${AWS_SECRET_ACCESS_KEY:-secretKey}",
+  "jdbcUrl": "${JDBC_DATABASE_URL:-jdbc://url}",
+  "awsGameswapDirectory": "${AWS_GAMESWAP_DIRECTORY:-bucket/gameswap}"
+}

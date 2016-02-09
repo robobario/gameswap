@@ -1,0 +1,6 @@
+{
+  "awsKeyId": "key",
+  "awsSecretAccessKey": "secretKey",
+  "jdbcUrl": "jdbc://url",
+  "awsGameswapDirectory": "bucket/gameswap"
+}

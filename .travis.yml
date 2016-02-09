@@ -11,4 +11,4 @@ services:
 before_script:
   - psql -c 'create database gameswap_test;' -U postgres
 
-script: mvn integration-test
+script: mvn --quiet integration-test
