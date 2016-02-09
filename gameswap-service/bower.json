@@ -2,24 +2,18 @@
   "name": "gameswap",
   "version": "0.0.0",
   "dependencies": {
-    "angular-resource": "~1.2.13",
-    "angular-route": "~1.2.13",
-    "angular": "~1.2.13",
+    "angular-resource": "^1.5.0",
     "jquery": "~2.1.0",
     "angular-animate": "^1.5.0",
     "satellizer": "^0.13.4",
-    "angular-ui-router": "^0.2.17",
+    "angular-ui-router": "^0.2.18",
     "angular-toastr": "^1.7.0",
     "Materialize": "materialize#^0.97.5",
     "lodash": "^4.2.1",
-    "angular-messages": "^1.5.0",
-    "angular-mocks": "^1.5.0"
+    "angular-messages": "^1.5.0"
   },
   "devDependencies": {
     "angular-mocks": "~1.5.0",
     "angular-scenario": "~1.5.0"
-  },
-  "resolutions": {
-    "angular": "1.5.0"
   }
 }

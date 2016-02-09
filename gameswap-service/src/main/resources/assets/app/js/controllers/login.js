@@ -1,6 +1,5 @@
 angular.module('gameswap')
     .controller('LoginCtrl', function ($scope, $state, $auth, toastr) {
-        console.log("SCOPE: " + $scope);
         $scope.login = function () {
             $auth.login($scope.user)
                 .then(function () {
