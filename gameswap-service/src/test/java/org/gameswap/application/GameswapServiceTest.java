@@ -7,17 +7,25 @@ import org.gameswap.model.Token;
 import org.gameswap.model.User;
 import org.gameswap.web.authentication.AuthUtils;
 import org.glassfish.jersey.client.JerseyClientBuilder;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.text.ParseException;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Response;
 
+import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.testing.ResourceHelpers;
 import io.dropwizard.testing.junit.DropwizardAppRule;
+import liquibase.Liquibase;
+import liquibase.database.jvm.JdbcConnection;
+import liquibase.exception.LiquibaseException;
+import liquibase.resource.ClassLoaderResourceAccessor;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -32,6 +40,16 @@ public class GameswapServiceTest {
     public final DropwizardAppRule<GameswapConfiguration> HTTP =
             new DropwizardAppRule<>(GameswapService.class,
                     ResourceHelpers.resourceFilePath("http.yaml"));
+
+    @Before
+    public void initialise() throws SQLException, LiquibaseException {
+        Connection name = RULE.getConfiguration().getDataSourceFactory().build(null, "name").getConnection();
+        Connection name2 = HTTP.getConfiguration().getDataSourceFactory().build(null, "name").getConnection();
+        Liquibase liquibase = new Liquibase("migrations.xml", new ClassLoaderResourceAccessor(), new JdbcConnection(name));
+        liquibase.updateTestingRollback("");
+        liquibase = new Liquibase("migrations.xml", new ClassLoaderResourceAccessor(), new JdbcConnection(name2));
+        liquibase.updateTestingRollback("");
+    }
 
     @Test
     public void allTrafficIsRedirectedToHttpsIfConfigured() {

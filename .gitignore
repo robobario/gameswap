@@ -145,3 +145,4 @@ target
 
 !springloaded*.jar
 */derby.log
+**/node_tmp
