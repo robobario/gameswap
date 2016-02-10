@@ -49,10 +49,6 @@ public class UserDAO extends AbstractDAO<User> {
         currentSession().delete(entity);
     }
 
-    public Optional<User> findById(long id) {
-        return Optional.fromNullable(get(id));
-    }
-
     public Optional<User> findByProvider(User.Provider provider, String id) {
         User foundUser = (User) namedQuery(String.format("User.findBy%s", provider.capitalize()))
                 .setParameter(provider.getName(), id)
