@@ -7,30 +7,23 @@ import org.eclipse.jetty.servlet.FilterHolder;
 import org.gameswap.model.User;
 import org.gameswap.model.UserPrincipal;
 import org.gameswap.persistance.UserDAO;
+import org.gameswap.web.HttpsForwardingFilter;
 import org.gameswap.web.authentication.AuthFilter;
 import org.gameswap.web.authentication.SimpleAuthenticator;
 import org.gameswap.web.resource.AuthResource;
 import org.gameswap.web.resource.TestResource;
 import org.gameswap.web.resource.UserResource;
 
-import java.io.IOException;
 import java.util.EnumSet;
 
 import javax.servlet.DispatcherType;
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.client.Client;
 
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.auth.basic.BasicCredentialAuthFilter;
 import io.dropwizard.client.JerseyClientBuilder;
+import io.dropwizard.configuration.ConfigurationSourceProvider;
 import io.dropwizard.configuration.EnvironmentVariableSubstitutor;
 import io.dropwizard.configuration.SubstitutingSourceProvider;
 import io.dropwizard.db.DataSourceFactory;
@@ -63,11 +56,19 @@ public class GameswapService extends Application<GameswapConfiguration> {
     @Override
     public void initialize(Bootstrap<GameswapConfiguration> bootstrap) {
         enableEnvironmentConfiguration(bootstrap);
+        addBundles(bootstrap);
+        customiseObjectMapper(bootstrap);
+    }
+
+    private void customiseObjectMapper(Bootstrap<GameswapConfiguration> bootstrap) {
+        ObjectMapper mapper = bootstrap.getObjectMapper();
+        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+    }
+
+    private void addBundles(Bootstrap<GameswapConfiguration> bootstrap) {
         bootstrap.addBundle(new AssetsBundle("/assets/app/", "/", "index.html"));
         bootstrap.addBundle(hibernateBundle);
         addMigrations(bootstrap);
-        ObjectMapper mapper = bootstrap.getObjectMapper();
-        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     }
 
     private void addMigrations(Bootstrap<GameswapConfiguration> bootstrap) {
@@ -82,16 +83,19 @@ public class GameswapService extends Application<GameswapConfiguration> {
 
     @Override
     public void run(GameswapConfiguration configuration, Environment environment) throws Exception {
+        addFilters(configuration, environment);
+        environment.jersey().setUrlPattern("/gameswap/*");
+        final Client client = new JerseyClientBuilder(environment).using(configuration.getJerseyClient()).build(getName());
+        UserDAO dao = new UserDAO(hibernateBundle.getSessionFactory());
+        registerResources(configuration, environment, client, dao);
+        environment.jersey().register(new BasicCredentialAuthFilter.Builder<UserPrincipal>().setAuthenticator(new SimpleAuthenticator(dao)));
+    }
+
+    private void addFilters(GameswapConfiguration configuration, Environment environment) {
         if (configuration.isRedirectAllToHttps()) {
             addHttpsForward(environment.getApplicationContext());
         }
         addAuthFilter(environment);
-        environment.jersey().setUrlPattern("/gameswap/*");
-        final Client client = new JerseyClientBuilder(environment).using(configuration.getJerseyClient()).build(getName());
-        UserDAO dao = new UserDAO(hibernateBundle.getSessionFactory());
-
-        registerResources(configuration, environment, client, dao);
-        environment.jersey().register(new BasicCredentialAuthFilter.Builder<UserPrincipal>().setAuthenticator(new SimpleAuthenticator(dao)));
     }
 
 
@@ -103,8 +107,9 @@ public class GameswapService extends Application<GameswapConfiguration> {
 
 
     private void enableEnvironmentConfiguration(Bootstrap<GameswapConfiguration> bootstrap) {
-        bootstrap.setConfigurationSourceProvider(
-                new SubstitutingSourceProvider(bootstrap.getConfigurationSourceProvider(), new EnvironmentVariableSubstitutor(false)));
+        EnvironmentVariableSubstitutor substitutor = new EnvironmentVariableSubstitutor(false);
+        ConfigurationSourceProvider provider = bootstrap.getConfigurationSourceProvider();
+        bootstrap.setConfigurationSourceProvider(new SubstitutingSourceProvider(provider, substitutor));
     }
 
 
@@ -115,25 +120,7 @@ public class GameswapService extends Application<GameswapConfiguration> {
 
 
     private void addHttpsForward(MutableServletContextHandler handler) {
-        handler.addFilter(new FilterHolder(new Filter() {
-
-            public void init(FilterConfig filterConfig) throws ServletException {
-            }
-
-
-            public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-                StringBuffer uri = ((HttpServletRequest) request).getRequestURL();
-                if (uri.toString().startsWith("http://")) {
-                    String location = "https://" + uri.substring("http://".length());
-                    ((HttpServletResponse) response).sendRedirect(location);
-                } else {
-                    chain.doFilter(request, response);
-                }
-            }
-
-
-            public void destroy() {
-            }
-        }), "/*", EnumSet.allOf(DispatcherType.class));
+        handler.addFilter(new FilterHolder(new HttpsForwardingFilter()), "/*", EnumSet.allOf(DispatcherType.class));
     }
+
 }

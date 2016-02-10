@@ -124,7 +124,7 @@ public class AuthResource {
                            @Context final HttpServletRequest request) throws ParseException, IllegalArgumentException, IllegalAccessException,
             NoSuchFieldException, SecurityException, JOSEException {
         final String subject = AuthUtils.getSubject(request.getHeader(AuthUtils.AUTH_HEADER_KEY));
-        final Optional<User> foundUser = dao.findById(Long.parseLong(subject));
+        final Optional<User> foundUser = dao.find(Long.parseLong(subject));
 
         String provider = unlinkRequest.provider;
 
@@ -171,7 +171,7 @@ public class AuthResource {
             }
 
             final String subject = AuthUtils.getSubject(authHeader);
-            final Optional<User> foundUser = dao.findById(Long.parseLong(subject));
+            final Optional<User> foundUser = dao.find(Long.parseLong(subject));
             if (!foundUser.isPresent()) {
                 return Response.status(Status.NOT_FOUND).entity(new ErrorMessage(NOT_FOUND_MSG)).build();
             }

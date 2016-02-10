@@ -13,10 +13,6 @@ public class GameswapConfiguration extends Configuration {
 
     @NotNull
     @JsonProperty
-    private String sampleProperty;
-
-    @NotNull
-    @JsonProperty
     private boolean redirectAllToHttps = false;
 
     @Valid
@@ -33,10 +29,6 @@ public class GameswapConfiguration extends Configuration {
     @NotNull
     @JsonProperty
     private String googleSecret;
-
-    public String getSampleProperty() {
-        return sampleProperty;
-    }
 
     public DataSourceFactory getDataSourceFactory() {
         return database;
