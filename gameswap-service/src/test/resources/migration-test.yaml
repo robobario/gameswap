@@ -1,5 +1,3 @@
-sampleProperty: hello!
-
 redirectAllToHttps: false
 googleSecret: xGxxgKAObIRUwOKycySkL9Fi
 
@@ -19,6 +17,6 @@ server:
   adminConnectors:
     - type: http
       port: 0
-  requestLog:
-    appenders:
-      - type: console
+
+logging:
+  level: ERROR
