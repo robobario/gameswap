@@ -1,6 +1,7 @@
 describe('LoginCtrl', function () {
     var $httpBackend, $rootScope, controller, $auth, $location;
     var loginUrl = '/gameswap/auth/login';
+    var homePageUrl = 'views/home/home.html';
 
     // Set up the module
     beforeEach(module('gameswap'));
@@ -16,6 +17,8 @@ describe('LoginCtrl', function () {
         //// The $controller service is used to create instances of controllers
         var $controller = $injector.get('$controller');
         var toastr = $injector.get('toastr');
+
+        $httpBackend.when('GET', homePageUrl).respond(200, {});
 
         controller = $controller('LoginCtrl', {
             '$scope': $rootScope,
@@ -35,17 +38,16 @@ describe('LoginCtrl', function () {
     describe('login()', function() {
         it('successful login should fetch authentication token', function () {
             $httpBackend.when('POST', loginUrl).respond(200, {token: 'somelongtoken'});
-            $httpBackend.expectPOST(loginUrl);
             $rootScope.login();
+            $httpBackend.expectPOST(loginUrl);
             $httpBackend.flush();
             expect($auth.isAuthenticated()).toEqual(true);
         });
 
 
         it('unsuccessful login, user is not authenticated', function () {
-            //// Notice how you can change the response even after it was set
-            $rootScope.login();
             $httpBackend.when('POST', loginUrl).respond(401, {"code": 500, "message": "Wrong email and/or password"});
+            $rootScope.login();
             $httpBackend.flush();
             expect($auth.isAuthenticated()).toEqual(false);
         });

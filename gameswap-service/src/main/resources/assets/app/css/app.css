@@ -1,56 +1,27 @@
-body {
-  margin-top: 60px;
-  padding: 10px;
-  background-color: #ECF0F1;
-}
 /* Prevent components from flickering */
-[ng\:cloak], [ng-cloak], .ng-cloak {
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important;
 }
 
-#toast-container {
-  margin-top: 50px;
+.no-animate * {
+  -webkit-transition: none !important;
+  transition: none !important;
 }
 
-.input-ion {
-  color: #555;
-  top: -32px;
-  left: 20px;
-  position: relative;
+.black-text-nav a {
+  color: #212121;
 }
 
-.center-form {
-  width: 330px;
-  margin: 12% auto;
-}
-
-.signup-or-separator {
-  position: relative;
-  height: 34px;
-  text-align: center;
-  background: none;
-}
-
-.signup-or-separator hr {
-  width: 90%;
-  margin: -16px auto 10px auto;
-  border-top: 1px solid #dce0e0;
-}
-
-.panel {
-  box-shadow: 0 8px 17px rgba(0, 0, 0, 0.2);
+.input-field input[type=text]:focus {
+  border-bottom: 1px solid #ffc107;
+  box-shadow: 0 1px 0 0 #ffc107;
 }
 
 .password-strength-indicator {
-  position: relative;
-  top: -35px;
-  right: 0;
-  padding: 0 15px;
-  float: right;
+  padding-right: 10px;
 }
 
 .password-strength-indicator span {
-  display: block;
   width: 5px;
   height: 5px;
   margin-bottom: 2px;
@@ -58,15 +29,19 @@ body {
   border-radius: 5px;
 }
 
-.has-feedback .form-control {
-  padding-left: 42.5px;
+.google-sign-in-btn {
+  margin-top: 10px;
+  color: #9F9F9F;
+  background: url(../images/google-icon.png) no-repeat 18px center;
+  background-size: 18px;
+  padding-left: 46px;
+  width: 100%;
 }
 
-.btn-google-plus {
-  color: #ebeef1;
-  background: #dd4b39;
+.login-signup-btn {
+  width: 100%;
 }
 
-.ion-social-googleplus {
-  margin-right: 10px;
+.no-account-text {
+  border-left: 5px solid #ffc107;
 }

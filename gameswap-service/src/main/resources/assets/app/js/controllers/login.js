@@ -1,22 +1,20 @@
 angular.module('gameswap')
-    .controller('LoginCtrl', function ($scope, $location, $auth, toastr) {
+    .controller('LoginCtrl', function ($scope, $state, $auth, toastr) {
         $scope.login = function () {
             $auth.login($scope.user)
                 .then(function () {
                     toastr.success('You have successfully signed in!');
-                    $location.path('/');
-                    $scope.authenticated = true;
+                    $state.go('home');
                 })
                 .catch(function (error) {
                     toastr.error(error.data.message, error.status);
-                    $scope.authenticated = false;
                 });
         };
         $scope.authenticate = function (provider) {
             $auth.authenticate(provider)
                 .then(function () {
                     toastr.success('You have successfully signed in with ' + provider + '!');
-                    $location.path('/');
+                    $state.go('home');
                 })
                 .catch(function (error) {
                     if (error.error) {

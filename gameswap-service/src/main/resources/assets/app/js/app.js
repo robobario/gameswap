@@ -1,5 +1,5 @@
 // Declare app level module which depends on filters, and services
-angular.module('gameswap', ['ngResource', 'ui.bootstrap', 'ui.date', 'ui.router', 'satellizer', 'ngAnimate', 'toastr'])
+angular.module('gameswap', ['ngMessages', 'ngResource','ui.router', 'satellizer', 'ngAnimate', 'toastr'])
 
     .config(['$stateProvider', '$urlRouterProvider', '$authProvider',
         function ($stateProvider, $urlRouterProvider, $authProvider) {
