@@ -1,6 +1,7 @@
 {
   "name": "gameswap",
   "version": "0.0.0",
+  "private": true,
   "description": "Description for gameswap",
   "dependencies": {},
   "devDependencies": {

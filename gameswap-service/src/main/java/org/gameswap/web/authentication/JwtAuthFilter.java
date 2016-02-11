@@ -68,7 +68,11 @@ public class JwtAuthFilter implements ContainerRequestFilter {
             // ensure that the token is not expired
             if (!new DateTime(claimSet.getExpirationTime()).isBefore(DateTime.now())) {
                 Optional<User> userOptional = dao.find(Long.parseLong(claimSet.getSubject()));
-                Optional<UserPrincipal> transform = userOptional.transform(user -> new UserPrincipal(user.getUsername()));
+                Optional<UserPrincipal> transform = userOptional.transform(user -> {
+                    UserPrincipal principal = new UserPrincipal(user.getUsername());
+                    principal.addRole(user.getRole());
+                    return principal;
+                });
                 if (transform.isPresent()) {
                     UserPrincipal userPrincipal = transform.get();
                     requestContext.setSecurityContext(new SecurityContext() {
@@ -78,8 +82,8 @@ public class JwtAuthFilter implements ContainerRequestFilter {
                         }
 
                         @Override
-                        public boolean isUserInRole(String s) {
-                            return true;
+                        public boolean isUserInRole(String role) {
+                            return userPrincipal.isUserInRole(role);
                         }
 
                         @Override

@@ -8,6 +8,7 @@ import com.nimbusds.jose.JOSEException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.gameswap.application.GameswapConfiguration;
+import org.gameswap.model.Role;
 import org.gameswap.model.Token;
 import org.gameswap.model.User;
 import org.gameswap.model.User.Provider;
@@ -82,6 +83,8 @@ public class AuthResource {
             return Response.status(Status.UNAUTHORIZED).entity(new ErrorMessage("account with name already exists")).build();
         }
         user.setPassword(PasswordService.hashPassword(user.getPassword()));
+        user.setDisplayName(user.getUsername());
+        user.setRole(Role.USER);
         final User savedUser = dao.save(user);
         final Token token = AuthUtils.createToken(request.getRemoteHost(), savedUser.getId());
         return Response.status(Status.CREATED).entity(token).build();

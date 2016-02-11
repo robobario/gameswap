@@ -2,7 +2,12 @@ package org.gameswap.application;
 
 
 import com.nimbusds.jose.JOSEException;
-
+import io.dropwizard.testing.ResourceHelpers;
+import io.dropwizard.testing.junit.DropwizardAppRule;
+import liquibase.Liquibase;
+import liquibase.database.jvm.JdbcConnection;
+import liquibase.exception.LiquibaseException;
+import liquibase.resource.ClassLoaderResourceAccessor;
 import org.gameswap.model.Token;
 import org.gameswap.model.User;
 import org.gameswap.web.authentication.AuthUtils;
@@ -13,20 +18,12 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.text.ParseException;
-
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Response;
-
-import io.dropwizard.testing.ResourceHelpers;
-import io.dropwizard.testing.junit.DropwizardAppRule;
-import liquibase.Liquibase;
-import liquibase.database.jvm.JdbcConnection;
-import liquibase.exception.LiquibaseException;
-import liquibase.resource.ClassLoaderResourceAccessor;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.text.ParseException;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;

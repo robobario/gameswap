@@ -1,20 +1,10 @@
 package org.gameswap.model;
 
-import com.google.common.base.Objects;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
+import com.google.common.base.Objects;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -48,6 +38,9 @@ public class User {
 
     @Column(name = "google")
     private String google;
+
+    @Column(name = "role")
+    private String role;
 
 
     public long getId() {
@@ -85,6 +78,14 @@ public class User {
     }
 
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -92,8 +93,10 @@ public class User {
 
         User that = (User) o;
 
-        return Objects.equal(this.id, that.id) && Objects.equal(this.username, that.username) && Objects.equal(this.password, that.password)
-                && Objects.equal(this.email, that.email) && Objects.equal(this.google, that.google) && Objects.equal(this.displayName, that.displayName);
+        return Objects.equal(this.id, that.id) && Objects.equal(this.username, that.username) && Objects
+                .equal(this.password, that.password)
+                && Objects.equal(this.email, that.email) && Objects.equal(this.google, that.google) && Objects
+                .equal(this.displayName, that.displayName) && Objects.equal(this.role, that.role);
     }
 
 
