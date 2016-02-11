@@ -15,13 +15,6 @@
     <name>Gameswap Service</name>
 
     <dependencies>
-        <!--
-        <dependency>
-            <groupId>org.gameswap</groupId>
-            <artifactId>gameswap-api</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        -->
         <dependency>
             <groupId>com.nimbusds</groupId>
             <artifactId>nimbus-jose-jwt</artifactId>
