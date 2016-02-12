@@ -112,6 +112,22 @@ public class AuthResourceTest {
     }
 
     @Test
+    public void testSignupUnsuccessful_EmptyUsername() throws IOException {
+        User user = createUser("", PASSWORD);
+        Response response = requestSignup(user);
+        assertThat(response.getStatus()).isEqualTo(422);
+        assertThat(getStringResponse(response)).contains("username size must be between 6 and 60");
+    }
+
+    @Test
+    public void testSignupUnsuccessful_EmptyPassword() throws IOException {
+        User user = createUser("newUser", "");
+        Response response = requestSignup(user);
+        assertThat(response.getStatus()).isEqualTo(422);
+        assertThat(getStringResponse(response)).contains("password size must be between 6 and 100");
+    }
+
+    @Test
     public void testSignUpSuccessful() throws IOException, ParseException, JOSEException {
         User newUser = createUser("newUser", PASSWORD_HASHED);
         when(dao.save(any(User.class))).thenReturn(newUser);
