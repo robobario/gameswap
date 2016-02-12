@@ -2,15 +2,10 @@ package org.gameswap.application;
 
 
 import com.nimbusds.jose.JOSEException;
-import io.dropwizard.testing.ResourceHelpers;
-import io.dropwizard.testing.junit.DropwizardAppRule;
-import liquibase.Liquibase;
-import liquibase.database.jvm.JdbcConnection;
-import liquibase.exception.LiquibaseException;
-import liquibase.resource.ClassLoaderResourceAccessor;
+
 import org.gameswap.model.Token;
 import org.gameswap.model.User;
-import org.gameswap.web.authentication.AuthUtils;
+import org.gameswap.web.authentication.JwtTokenCoder;
 import org.glassfish.jersey.client.JerseyClientBuilder;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -18,12 +13,20 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.Response;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.ParseException;
+
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.core.Response;
+
+import io.dropwizard.testing.ResourceHelpers;
+import io.dropwizard.testing.junit.DropwizardAppRule;
+import liquibase.Liquibase;
+import liquibase.database.jvm.JdbcConnection;
+import liquibase.exception.LiquibaseException;
+import liquibase.resource.ClassLoaderResourceAccessor;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -38,6 +41,7 @@ public class GameswapServiceTest {
     public final DropwizardAppRule<GameswapConfiguration> HTTP =
             new DropwizardAppRule<>(GameswapService.class,
                     ResourceHelpers.resourceFilePath("http.yaml"));
+    private JwtTokenCoder jwtTokenCoder = new JwtTokenCoder("aliceinwonderlandhajiddiwhatnowzaheyheyhey");
 
     @Before
     public void initialise() throws SQLException, LiquibaseException {
@@ -173,7 +177,7 @@ public class GameswapServiceTest {
 
 
     private void assertDecodable(String token) throws ParseException, JOSEException {
-        AuthUtils.decodeToken("Authorization: " + token);
+        jwtTokenCoder.decodeToken("Authorization: " + token);
     }
 
 

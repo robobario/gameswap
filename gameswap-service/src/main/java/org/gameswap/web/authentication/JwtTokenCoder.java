@@ -14,26 +14,34 @@ import org.joda.time.DateTime;
 
 import java.text.ParseException;
 
-public final class AuthUtils {
+public final class JwtTokenCoder {
 
     public static final String AUTH_HEADER_KEY = "Authorization";
     private static final JWSHeader JWT_HEADER = new JWSHeader(JWSAlgorithm.HS256);
-    private static final String TOKEN_SECRET = "aliceinwonderlandhajiddiwhatnowzaheyheyhey";
+    private final String tokenSecret;
 
-    public static String getSubject(String authHeader) throws ParseException, JOSEException {
+    public JwtTokenCoder(String tokenSecret) {
+        this.tokenSecret = tokenSecret;
+    }
+
+    private static String getSerializedToken(String authHeader) {
+        return authHeader.split(" ")[1];
+    }
+
+    public String getSubject(String authHeader) throws ParseException, JOSEException {
         return decodeToken(authHeader).getSubject();
     }
 
-    public static JWTClaimsSet decodeToken(String authHeader) throws ParseException, JOSEException {
+    public JWTClaimsSet decodeToken(String authHeader) throws ParseException, JOSEException {
         SignedJWT signedJWT = SignedJWT.parse(getSerializedToken(authHeader));
-        if (signedJWT.verify(new MACVerifier(TOKEN_SECRET))) {
+        if (signedJWT.verify(new MACVerifier(tokenSecret))) {
             return signedJWT.getJWTClaimsSet();
         } else {
             throw new JOSEException("Signature verification failed");
         }
     }
 
-    public static Token createToken(String host, long userId, String displayName, String role) throws JOSEException {
+    public Token createToken(String host, long userId, String displayName, String role) throws JOSEException {
         JWTClaimsSet.Builder claim = new JWTClaimsSet.Builder();
         claim.subject(Long.toString(userId));
         claim.issuer(host);
@@ -41,14 +49,10 @@ public final class AuthUtils {
         claim.expirationTime(DateTime.now().plusDays(14).toDate());
         claim.claim("name", displayName);
         claim.claim("role", role);
-        JWSSigner signer = new MACSigner(TOKEN_SECRET);
+        JWSSigner signer = new MACSigner(tokenSecret);
         SignedJWT jwt = new SignedJWT(JWT_HEADER, claim.build());
         jwt.sign(signer);
 
         return new Token(jwt.serialize());
-    }
-
-    public static String getSerializedToken(String authHeader) {
-        return authHeader.split(" ")[1];
     }
 }
