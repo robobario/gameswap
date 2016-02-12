@@ -3,7 +3,7 @@ googleSecret: xGxxgKAObIRUwOKycySkL9Fi
 
 database:
   driverClass: org.postgresql.Driver
-  url: jdbc:postgresql://localhost:5432/gameswap_test?prepareThreshold=0&user=postgres
+  url: ${JDBC_DATABASE_URL:-jdbc:postgresql://localhost:5432/gameswap_test?prepareThreshold=0&user=postgres}
 
   properties:
     hibernate.temp.use_jdbc_metadata_defaults: false

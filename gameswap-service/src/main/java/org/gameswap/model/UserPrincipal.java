@@ -1,10 +1,9 @@
 package org.gameswap.model;
 
+import javax.security.auth.Subject;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.security.auth.Subject;
 
 public class UserPrincipal implements Principal {
 
@@ -20,6 +19,10 @@ public class UserPrincipal implements Principal {
 
     public List<String> getRoles() {
         return roles;
+    }
+
+    public void addRole(String role) {
+        roles.add(role);
     }
 
 
