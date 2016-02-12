@@ -1,5 +1,6 @@
 redirectAllToHttps: true
 googleSecret: ${GOOGLE_SECRET:-fakefakefake}
+jwtSecret: aliceinwonderlandhajiddiwhatnowzaheyheyhey
 
 # Database settings.
 database:

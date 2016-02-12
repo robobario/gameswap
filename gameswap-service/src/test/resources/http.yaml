@@ -1,5 +1,6 @@
 redirectAllToHttps: false
 googleSecret: xGxxgKAObIRUwOKycySkL9Fi
+jwtSecret: aliceinwonderlandhajiddiwhatnowzaheyheyhey
 
 # Database settings.
 database:

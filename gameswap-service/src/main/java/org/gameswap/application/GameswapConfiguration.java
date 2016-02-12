@@ -30,6 +30,11 @@ public class GameswapConfiguration extends Configuration {
     @JsonProperty
     private String googleSecret;
 
+    @Valid
+    @NotNull
+    @JsonProperty
+    private String jwtSecret;
+
     public DataSourceFactory getDataSourceFactory() {
         return database;
     }
@@ -56,5 +61,9 @@ public class GameswapConfiguration extends Configuration {
 
     public JerseyClientConfiguration getJerseyClient() {
         return httpClient;
+    }
+
+    public String getJwtSecret() {
+        return jwtSecret;
     }
 }

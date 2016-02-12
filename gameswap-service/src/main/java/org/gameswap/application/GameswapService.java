@@ -7,8 +7,8 @@ import org.eclipse.jetty.servlet.FilterHolder;
 import org.gameswap.model.User;
 import org.gameswap.persistance.UserDAO;
 import org.gameswap.web.HttpsForwardingFilter;
-import org.gameswap.web.authentication.JwtTokenCoder;
 import org.gameswap.web.authentication.JwtAuthFilter;
+import org.gameswap.web.authentication.JwtTokenCoder;
 import org.gameswap.web.resource.AuthResource;
 import org.gameswap.web.resource.TestResource;
 import org.gameswap.web.resource.UserResource;
@@ -88,7 +88,7 @@ public class GameswapService extends Application<GameswapConfiguration> {
         environment.jersey().setUrlPattern("/gameswap/*");
         final Client client = new JerseyClientBuilder(environment).using(configuration.getJerseyClient()).build(getName());
         UserDAO dao = new UserDAO(getSessionFactory());
-        JwtTokenCoder jwtTokenCoder = new JwtTokenCoder();
+        JwtTokenCoder jwtTokenCoder = new JwtTokenCoder(configuration.getJwtSecret());
         registerResources(configuration, environment, client, dao, jwtTokenCoder);
         environment.jersey().register(new AuthDynamicFeature(new JwtAuthFilter(dao, getSessionFactory(), jwtTokenCoder)));
         environment.jersey().register(RolesAllowedDynamicFeature.class);

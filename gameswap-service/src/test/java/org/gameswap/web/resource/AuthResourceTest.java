@@ -48,7 +48,7 @@ public class AuthResourceTest {
     private static final String PASSWORD = "password";
     private static final String PASSWORD_HASHED = PasswordService.hashPassword(PASSWORD);
     private static final String KNOWN_USER = "somebody";
-    private static final JwtTokenCoder JWT_TOKEN_CODER = new JwtTokenCoder();
+    private static final JwtTokenCoder JWT_TOKEN_CODER = new JwtTokenCoder("aliceinwonderlandhajiddiwhatnowzaheyheyhey");
     private static GameswapConfiguration config = mock(GameswapConfiguration.class);
     private static UserDAO dao = mock(UserDAO.class);
     private static Client client = mock(JerseyClient.class);

@@ -41,7 +41,7 @@ public class GameswapServiceTest {
     public final DropwizardAppRule<GameswapConfiguration> HTTP =
             new DropwizardAppRule<>(GameswapService.class,
                     ResourceHelpers.resourceFilePath("http.yaml"));
-    private JwtTokenCoder jwtTokenCoder = new JwtTokenCoder();
+    private JwtTokenCoder jwtTokenCoder = new JwtTokenCoder("aliceinwonderlandhajiddiwhatnowzaheyheyhey");
 
     @Before
     public void initialise() throws SQLException, LiquibaseException {
