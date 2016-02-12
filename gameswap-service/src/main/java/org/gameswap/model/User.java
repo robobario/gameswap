@@ -21,11 +21,11 @@ public class User {
     private long id;
 
     @Column(name = "username", length = 18)
-    @Size(min = 6)
+    @Size(min = 6, max=60)
     private String username;
 
     @Column(name = "password")
-    @Size(min = 6)
+    @Size(min = 6, max=100)
     private String password;
 
     @Column(name = "email")
