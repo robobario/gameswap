@@ -14,7 +14,7 @@ import org.gameswap.model.User;
 import org.gameswap.model.User.Provider;
 import org.gameswap.persistance.UserDAO;
 import org.gameswap.security.PasswordService;
-import org.gameswap.web.authentication.AuthUtils;
+import org.gameswap.web.authentication.JwtTokenCoder;
 import org.hibernate.validator.constraints.NotBlank;
 
 import java.io.IOException;
@@ -44,6 +44,8 @@ import io.dropwizard.jersey.errors.ErrorMessage;
 @Consumes(MediaType.APPLICATION_JSON)
 public class AuthResource {
 
+    public static final String LOGGING_ERROR_MSG = "Wrong email and/or password";
+    public static final String USERNAME_EXISTS = "account with name already exists";
     private static final String CLIENT_ID_KEY = "client_id";
     private static final String REDIRECT_URI_KEY = "redirect_uri";
     private static final String CLIENT_SECRET = "client_secret";
@@ -52,21 +54,21 @@ public class AuthResource {
     private static final String AUTH_CODE = "authorization_code";
     private static final String CONFLICT_MSG = "There is already a %s account that belongs to you";
     private static final String NOT_FOUND_MSG = "User not found";
-    public static final String LOGGING_ERROR_MSG = "Wrong email and/or password";
     private static final String UNLINK_ERROR_MSG = "Could not unlink %s account because it is your only sign-in method";
     private static final ObjectMapper MAPPER = new ObjectMapper();
     private static final String GOOGLE_TOKEN_URL = "https://accounts.google.com/o/oauth2/token";
     private static final String GOOGLE_PEOPLE_API_URL = "https://www.googleapis.com/plus/v1/people/me/openIdConnect";
-    public static final String USERNAME_EXISTS = "account with name already exists";
     private final Client client;
     private final UserDAO dao;
     private final GameswapConfiguration secrets;
+    private JwtTokenCoder jwtTokenCoder;
 
 
-    public AuthResource(final Client client, final UserDAO dao, final GameswapConfiguration secrets) {
+    public AuthResource(final Client client, final UserDAO dao, final GameswapConfiguration secrets, JwtTokenCoder jwtTokenCoder) {
         this.client = client;
         this.dao = dao;
         this.secrets = secrets;
+        this.jwtTokenCoder = jwtTokenCoder;
     }
 
 
@@ -114,7 +116,7 @@ public class AuthResource {
     public Response unlink(@Valid final UnlinkRequest unlinkRequest,
                            @Context final HttpServletRequest request) throws ParseException, IllegalArgumentException, IllegalAccessException,
             NoSuchFieldException, SecurityException, JOSEException {
-        final String subject = AuthUtils.getSubject(request.getHeader(AuthUtils.AUTH_HEADER_KEY));
+        final String subject = getSubject(request.getHeader(JwtTokenCoder.AUTH_HEADER_KEY));
         final Optional<User> foundUser = findUser(subject);
         String provider = unlinkRequest.provider;
         if (!foundUser.isPresent()) {
@@ -149,7 +151,7 @@ public class AuthResource {
 
     private Map<String, Object> getUserInfo(String peopleApiUrl, Response response) throws IOException {
         final String accessToken = (String) getResponseEntity(response).get("access_token");
-        response = client.target(peopleApiUrl).request("text/plain").header(AuthUtils.AUTH_HEADER_KEY, String.format("Bearer %s", accessToken)).get();
+        response = client.target(peopleApiUrl).request("text/plain").header(JwtTokenCoder.AUTH_HEADER_KEY, String.format("Bearer %s", accessToken)).get();
         return getResponseEntity(response);
     }
 
@@ -173,7 +175,7 @@ public class AuthResource {
     private Response processUser(final HttpServletRequest request, final Provider provider, final String id,
                                  final String displayName) throws ParseException, JOSEException {
         final Optional<User> user = dao.findByProvider(provider, id);
-        final String authHeader = request.getHeader(AuthUtils.AUTH_HEADER_KEY);
+        final String authHeader = request.getHeader(JwtTokenCoder.AUTH_HEADER_KEY);
         boolean isUserLoggedIn = StringUtils.isNotBlank(authHeader);
         if (isUserLoggedIn) {
             return linkProviderToLoggedInAccount(request, provider, id, displayName, user, authHeader);
@@ -201,7 +203,7 @@ public class AuthResource {
             return Response.status(Status.CONFLICT).entity(new ErrorMessage(String.format(CONFLICT_MSG, provider.capitalize()))).build();
         }
 
-        final String subject = AuthUtils.getSubject(authHeader);
+        final String subject = getSubject(authHeader);
         final Optional<User> foundUser = findUser(subject);
         if (!foundUser.isPresent()) {
             return notFound();
@@ -211,6 +213,10 @@ public class AuthResource {
         userToSave = setProviderAndSave(provider, id, displayName, userToSave);
         final Token token = createToken(request, userToSave);
         return ok(token);
+    }
+
+    private String getSubject(String authHeader) throws ParseException, JOSEException {
+        return jwtTokenCoder.getSubject(authHeader);
     }
 
     private User setProviderAndSave(Provider provider, String id, String displayName, User userToSave) {
@@ -241,7 +247,7 @@ public class AuthResource {
     }
 
     private Token createToken(HttpServletRequest request, User user) throws JOSEException {
-        return AuthUtils.createToken(request.getRemoteHost(), user.getId(), user.getDisplayName(), user.getRole());
+        return jwtTokenCoder.createToken(request.getRemoteHost(), user.getId(), user.getDisplayName(), user.getRole());
     }
 
     public static class UnlinkRequest {

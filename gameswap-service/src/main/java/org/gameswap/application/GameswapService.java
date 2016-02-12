@@ -7,6 +7,7 @@ import org.eclipse.jetty.servlet.FilterHolder;
 import org.gameswap.model.User;
 import org.gameswap.persistance.UserDAO;
 import org.gameswap.web.HttpsForwardingFilter;
+import org.gameswap.web.authentication.JwtTokenCoder;
 import org.gameswap.web.authentication.JwtAuthFilter;
 import org.gameswap.web.resource.AuthResource;
 import org.gameswap.web.resource.TestResource;
@@ -87,8 +88,9 @@ public class GameswapService extends Application<GameswapConfiguration> {
         environment.jersey().setUrlPattern("/gameswap/*");
         final Client client = new JerseyClientBuilder(environment).using(configuration.getJerseyClient()).build(getName());
         UserDAO dao = new UserDAO(getSessionFactory());
-        registerResources(configuration, environment, client, dao);
-        environment.jersey().register(new AuthDynamicFeature(new JwtAuthFilter(dao, getSessionFactory())));
+        JwtTokenCoder jwtTokenCoder = new JwtTokenCoder();
+        registerResources(configuration, environment, client, dao, jwtTokenCoder);
+        environment.jersey().register(new AuthDynamicFeature(new JwtAuthFilter(dao, getSessionFactory(), jwtTokenCoder)));
         environment.jersey().register(RolesAllowedDynamicFeature.class);
     }
 
@@ -103,10 +105,10 @@ public class GameswapService extends Application<GameswapConfiguration> {
     }
 
 
-    private void registerResources(GameswapConfiguration configuration, Environment environment, Client client, UserDAO dao) {
+    private void registerResources(GameswapConfiguration configuration, Environment environment, Client client, UserDAO dao, JwtTokenCoder jwtTokenCoder) {
         environment.jersey().register(new UserResource(dao));
         environment.jersey().register(new TestResource());
-        environment.jersey().register(new AuthResource(client, dao, configuration));
+        environment.jersey().register(new AuthResource(client, dao, configuration, jwtTokenCoder));
     }
 
 

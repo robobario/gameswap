@@ -13,7 +13,7 @@ import org.gameswap.model.Role;
 import org.gameswap.model.User;
 import org.gameswap.persistance.UserDAO;
 import org.gameswap.security.PasswordService;
-import org.gameswap.web.authentication.AuthUtils;
+import org.gameswap.web.authentication.JwtTokenCoder;
 import org.glassfish.jersey.client.JerseyClient;
 import org.json.JSONObject;
 import org.junit.Before;
@@ -44,17 +44,17 @@ import static org.mockito.Mockito.when;
 
 public class AuthResourceTest {
 
-    private static GameswapConfiguration config = mock(GameswapConfiguration.class);
-    private static UserDAO dao = mock(UserDAO.class);
-    private static Client client = mock(JerseyClient.class);
     private static final HttpServletRequest request = mock(HttpServletRequest.class);
     private static final String PASSWORD = "password";
     private static final String PASSWORD_HASHED = PasswordService.hashPassword(PASSWORD);
     private static final String KNOWN_USER = "somebody";
-
+    private static final JwtTokenCoder JWT_TOKEN_CODER = new JwtTokenCoder();
+    private static GameswapConfiguration config = mock(GameswapConfiguration.class);
+    private static UserDAO dao = mock(UserDAO.class);
+    private static Client client = mock(JerseyClient.class);
     @ClassRule
     public static final ResourceTestRule resources = ResourceTestRule.builder()
-            .addResource(new AuthResource(client, dao, config))
+            .addResource(new AuthResource(client, dao, config, JWT_TOKEN_CODER))
             .addProvider(new ContextInjectableProvider<>(HttpServletRequest.class, request))
             .build();
 
@@ -176,7 +176,7 @@ public class AuthResourceTest {
     private JWTClaimsSet getJwtClaimsSetFromResponse(Response response) throws IOException, ParseException, JOSEException {
         JSONObject jsonObject = getJsonResponse(response);
         String token = jsonObject.getString("token");
-        return AuthUtils.decodeToken("Authorization: " + token);
+        return JWT_TOKEN_CODER.decodeToken("Authorization: " + token);
     }
 
     private Response requestLogin(User user) {

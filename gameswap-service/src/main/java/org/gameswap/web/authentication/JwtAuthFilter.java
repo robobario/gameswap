@@ -9,7 +9,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.gameswap.model.User;
 import org.gameswap.model.UserPrincipal;
 import org.gameswap.persistance.UserDAO;
-import org.gameswap.web.authentication.AuthUtils;
 import org.hibernate.CacheMode;
 import org.hibernate.FlushMode;
 import org.hibernate.Session;
@@ -22,7 +21,6 @@ import java.security.Principal;
 import java.text.ParseException;
 
 import javax.annotation.Priority;
-import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
@@ -32,15 +30,17 @@ import javax.ws.rs.core.SecurityContext;
 public class JwtAuthFilter implements ContainerRequestFilter {
     private UserDAO dao;
     private SessionFactory sessionFactory;
+    private JwtTokenCoder jwtTokenCoder;
 
-    public JwtAuthFilter(UserDAO dao, SessionFactory sessionFactory) {
+    public JwtAuthFilter(UserDAO dao, SessionFactory sessionFactory, JwtTokenCoder jwtTokenCoder) {
         this.dao = dao;
         this.sessionFactory = sessionFactory;
+        this.jwtTokenCoder = jwtTokenCoder;
     }
 
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
-        String authHeader = requestContext.getHeaderString(AuthUtils.AUTH_HEADER_KEY);
+        String authHeader = requestContext.getHeaderString(JwtTokenCoder.AUTH_HEADER_KEY);
         Session session = null;
         try {
             session = sessionFactory.openSession();
@@ -49,7 +49,7 @@ public class JwtAuthFilter implements ContainerRequestFilter {
             session.setFlushMode(FlushMode.MANUAL);
             ManagedSessionContext.bind(session);
             doWork(requestContext, authHeader);
-        }finally{
+        } finally {
             if (session != null) {
                 session.close();
             }
@@ -60,7 +60,7 @@ public class JwtAuthFilter implements ContainerRequestFilter {
         if (!StringUtils.isBlank(authHeader) && authHeader.split(" ").length == 2) {
             JWTClaimsSet claimSet;
             try {
-                claimSet = AuthUtils.decodeToken(authHeader);
+                claimSet = jwtTokenCoder.decodeToken(authHeader);
             } catch (ParseException | JOSEException e) {
                 throw new NotAuthorizedException(e);
             }
