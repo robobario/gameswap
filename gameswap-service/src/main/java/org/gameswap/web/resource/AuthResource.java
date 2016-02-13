@@ -94,6 +94,7 @@ public class AuthResource {
         }
         user.setRole(Role.USER);
         user.setPassword(PasswordService.hashPassword(user.getPassword()));
+        user.setDisplayName(user.getUsername());
         final User savedUser = dao.save(user);
         final Token token = createToken(request, savedUser);
         return Response.status(Status.CREATED).entity(token).build();

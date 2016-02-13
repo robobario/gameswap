@@ -1,10 +1,8 @@
 package org.gameswap.web.authentication;
 
 import com.google.common.base.Optional;
-
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jwt.JWTClaimsSet;
-
 import org.apache.commons.lang3.StringUtils;
 import org.gameswap.model.User;
 import org.gameswap.model.UserPrincipal;
@@ -16,15 +14,14 @@ import org.hibernate.SessionFactory;
 import org.hibernate.context.internal.ManagedSessionContext;
 import org.joda.time.DateTime;
 
-import java.io.IOException;
-import java.security.Principal;
-import java.text.ParseException;
-
 import javax.annotation.Priority;
 import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.core.SecurityContext;
+import java.io.IOException;
+import java.security.Principal;
+import java.text.ParseException;
 
 @Priority(1000)
 public class JwtAuthFilter implements ContainerRequestFilter {

@@ -2,39 +2,33 @@ package org.gameswap.web.resource;
 
 import com.codahale.metrics.annotation.Timed;
 import com.google.common.base.Optional;
+import io.dropwizard.auth.Auth;
 import io.dropwizard.hibernate.UnitOfWork;
 import io.dropwizard.jersey.params.LongParam;
 import org.gameswap.model.Role;
 import org.gameswap.model.User;
+import org.gameswap.model.UserPrincipal;
 import org.gameswap.persistance.UserDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.security.RolesAllowed;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
-@Path("/users")
-public class UserResource {
+@Path("/profile")
+public class ProfileResource {
 
-    private static final Logger LOG = LoggerFactory.getLogger(UserResource.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ProfileResource.class);
 
     private final UserDAO dao;
 
-    public UserResource(UserDAO dao) {
+    public ProfileResource(UserDAO dao) {
         this.dao = dao;
     }
 
-
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Timed
-    @UnitOfWork
-    @RolesAllowed(Role.ADMIN)
-    public List<User> getAll() {
-        return dao.findAll();
-    }
 
     @GET
     @Path("{id}")
@@ -42,12 +36,15 @@ public class UserResource {
     @Timed
     @UnitOfWork
     @RolesAllowed(Role.USER)
-    public User get(@PathParam("id") LongParam id) {
+    public User get(@PathParam("id") LongParam id, @Auth UserPrincipal userPrincipal) {
+        LOG.info("user principal {}", userPrincipal);
         Optional<User> entity = dao.find(id.get());
         if (!entity.isPresent()) {
-            throw new NotFoundException("User " + id.get() + " not found");
+            throw new NotFoundException("User " + id + " not found");
         }
-        return entity.get();
+        User user = entity.get();
+        LOG.info("Found user: {}", user);
+        return user;
     }
 
     @PUT
@@ -56,25 +53,11 @@ public class UserResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Timed
     @UnitOfWork
-    @RolesAllowed(Role.USER)
-    public User update(@PathParam("id") LongParam id, User entity) {
+    public User update(@PathParam("id") LongParam id, @Valid User entity) {
         Optional<User> ent = dao.find(id.get());
         if (!ent.isPresent()) {
-            throw new NotFoundException("User " + id.get() + " not found");
+            throw new NotFoundException("User " + id + " not found");
         }
         return dao.merge(entity);
-    }
-
-    @DELETE
-    @Path("{id}")
-    @Timed
-    @UnitOfWork
-    @RolesAllowed(Role.USER)
-    public void delete(@PathParam("id") LongParam id) {
-        Optional<User> entity = dao.find(id.get());
-        if (!entity.isPresent()) {
-            throw new NotFoundException("User " + id.get() + " not found");
-        }
-        dao.delete(entity.get());
     }
 }

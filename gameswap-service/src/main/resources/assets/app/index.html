@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gameswap</title>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">-->
     <link type="text/css" rel="stylesheet" href="bower_components/Materialize/dist/css/materialize.min.css"
           media="screen,projection"/>
     <link href="bower_components/angular-toastr/dist/angular-toastr.min.css" rel="stylesheet">
@@ -16,16 +16,18 @@
 <nav ng-controller="NavbarCtrl" class="white black-text-nav no-animate">
     <div class="container">
         <div class="nav-wrapper">
-            <a ui-sref="home" class="brand-logo">Gameswap</a>
+            <a ui-sref="home" class="brand-logo">GameSwap</a>
             <a href="#" data-activates="mobile-menu" class="button-collapse"><i class="material-icons">menu</i></a>
             <ul class="right hide-on-med-and-down cyan-text">
+                <li ng-show=""><a ui-sref="profile" ng-cloak>Profile</a></li>
                 <li ng-show="!isAuthenticated()"><a ui-sref="login" ng-cloak>Login</a></li>
                 <li ng-show="!isAuthenticated()"><a ui-sref="signup" ng-cloak>Sign up</a></li>
                 <li ng-show="isAuthenticated()"><a ui-sref="logout" ng-cloak>Logout</a></li>
             </ul>
             <ul class="side-nav" id="mobile-menu">
-                <li ng-show="!isAuthenticated()"><a ng-click="click('login')" ng-cloak>Login</a></li>
+                <li ng-show=""><a ng-click="click('login')" ng-cloak>Login</a></li>
                 <li ng-show="!isAuthenticated()"><a ng-click="click('signup')" ng-cloak>Sign up</a></li>
+                <li ng-show="isAuthenticated()"><a ng-click="click('profile')" ng-cloak>Profile</a></li>
                 <li ng-show="isAuthenticated()"><a ng-click="click('logout')" ng-cloak>Logout</a></li>
             </ul>
         </div>
@@ -37,17 +39,20 @@
 </div>
 
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
+<script src="bower_components/lodash/lodash.min.js"></script>
 <script src="bower_components/Materialize/dist/js/materialize.min.js"></script>
 <script src="bower_components/angular/angular.min.js"></script>
 <script src="bower_components/angular-animate/angular-animate.min.js"></script>
 <script src="bower_components/angular-resource/angular-resource.min.js"></script>
+<script src="bower_components/restangular/dist/restangular.min.js"></script>
 <script src="bower_components/angular-messages/angular-messages.min.js"></script>
 <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
 <script src="bower_components/satellizer/satellizer.min.js"></script>
 <script src="bower_components/angular-toastr/dist/angular-toastr.tpls.min.js"></script>
 
 <script src="js/app.js"></script>
-<script src="js/config/config.js"></script>
+<script src="js/config/toastr-config.js"></script>
+<script src="js/config/restangular-config.js"></script>
 <script src="js/home/home-controller.js"></script>
 
 <script src="js/directive/password-match.js"></script>
@@ -60,6 +65,7 @@
 <script src="js/controllers/login.js"></script>
 <script src="js/controllers/logout.js"></script>
 <script src="js/controllers/signup.js"></script>
+<script src="js/controllers/profile.js"></script>
 
 
 </body>

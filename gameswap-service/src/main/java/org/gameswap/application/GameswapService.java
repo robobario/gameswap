@@ -3,6 +3,7 @@ package org.gameswap.application;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
+import io.dropwizard.auth.basic.BasicCredentialAuthFilter;
 import org.eclipse.jetty.servlet.FilterHolder;
 import org.gameswap.model.User;
 import org.gameswap.persistance.UserDAO;
@@ -10,6 +11,7 @@ import org.gameswap.web.HttpsForwardingFilter;
 import org.gameswap.web.authentication.JwtAuthFilter;
 import org.gameswap.web.authentication.JwtTokenCoder;
 import org.gameswap.web.resource.AuthResource;
+import org.gameswap.web.resource.ProfileResource;
 import org.gameswap.web.resource.TestResource;
 import org.gameswap.web.resource.UserResource;
 import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
@@ -108,6 +110,7 @@ public class GameswapService extends Application<GameswapConfiguration> {
     private void registerResources(GameswapConfiguration configuration, Environment environment, Client client, UserDAO dao, JwtTokenCoder jwtTokenCoder) {
         environment.jersey().register(new UserResource(dao));
         environment.jersey().register(new TestResource());
+        environment.jersey().register(new ProfileResource(dao));
         environment.jersey().register(new AuthResource(client, dao, configuration, jwtTokenCoder));
     }
 

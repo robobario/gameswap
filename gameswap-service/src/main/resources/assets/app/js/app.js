@@ -1,5 +1,5 @@
 // Declare app level module which depends on filters, and services
-angular.module('gameswap', ['ngMessages', 'ngResource','ui.router', 'satellizer', 'ngAnimate', 'toastr'])
+angular.module('gameswap', ['ngMessages', 'restangular', 'ui.router', 'satellizer', 'ngAnimate', 'toastr' ])
 
     .config(['$stateProvider', '$urlRouterProvider', '$authProvider',
         function ($stateProvider, $urlRouterProvider, $authProvider) {
@@ -24,6 +24,13 @@ angular.module('gameswap', ['ngMessages', 'ngResource','ui.router', 'satellizer'
                     resolve: {
                         skipIfLoggedIn: skipIfLoggedIn
                     }
+                }).state('profile', {
+                    url: '/profile',
+                    templateUrl: 'views/partials/profile.html',
+                    controller: 'ProfileCtrl',
+                    resolve: {
+                        loginRequired: loginRequired
+                    }
                 })
                 .state('logout', {
                     url: '/logout',
@@ -47,12 +54,12 @@ angular.module('gameswap', ['ngMessages', 'ngResource','ui.router', 'satellizer'
                 return deferred.promise;
             }
 
-            function loginRequired($q, $location, $auth) {
+            function loginRequired($q, $auth) {
                 var deferred = $q.defer();
                 if ($auth.isAuthenticated()) {
                     deferred.resolve();
                 } else {
-                    $location.path('/login');
+                    $state.go('login');
                 }
                 return deferred.promise;
             }
