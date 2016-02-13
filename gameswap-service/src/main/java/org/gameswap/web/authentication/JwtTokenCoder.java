@@ -14,7 +14,7 @@ import org.joda.time.DateTime;
 
 import java.text.ParseException;
 
-public final class JwtTokenCoder {
+public class JwtTokenCoder {
 
     public static final String AUTH_HEADER_KEY = "Authorization";
     private static final JWSHeader JWT_HEADER = new JWSHeader(JWSAlgorithm.HS256);
@@ -45,14 +45,18 @@ public final class JwtTokenCoder {
         JWTClaimsSet.Builder claim = new JWTClaimsSet.Builder();
         claim.subject(Long.toString(userId));
         claim.issuer(host);
-        claim.issueTime(DateTime.now().toDate());
-        claim.expirationTime(DateTime.now().plusDays(14).toDate());
+        DateTime now = getNow();
+        claim.issueTime(now.toDate());
+        claim.expirationTime(now.plusDays(14).toDate());
         claim.claim("name", displayName);
         claim.claim("role", role);
         JWSSigner signer = new MACSigner(tokenSecret);
         SignedJWT jwt = new SignedJWT(JWT_HEADER, claim.build());
         jwt.sign(signer);
-
         return new Token(jwt.serialize());
+    }
+
+    protected DateTime getNow() {
+        return DateTime.now();
     }
 }
