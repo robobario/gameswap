@@ -1,6 +1,9 @@
 redirectAllToHttps: true
 googleSecret: ${GOOGLE_SECRET:-fakefakefake}
 jwtSecret: aliceinwonderlandhajiddiwhatnowzaheyheyhey
+rabbitMqReceiveUrl: amqp://localhost:5672
+rabbitMqSendUrl: amqp://localhost:5672
+rabbitMqEnabled: false
 
 # Database settings.
 database:

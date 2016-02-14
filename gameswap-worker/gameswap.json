@@ -2,5 +2,8 @@
   "awsKeyId": "${AWS_KEY_ID:-key}",
   "awsSecretAccessKey": "${AWS_SECRET_ACCESS_KEY:-secretKey}",
   "jdbcUrl": "${JDBC_DATABASE_URL:-jdbc://url}",
-  "awsGameswapDirectory": "${AWS_GAMESWAP_DIRECTORY:-bucket/gameswap}"
+  "awsGameswapDirectory": "${AWS_GAMESWAP_DIRECTORY:-bucket/gameswap}",
+  "rabbitMqSendUrl": "${RABBITMQ_BIGWIG_TX_URL:-amqp://localhost:5672}",
+  "rabbitMqReceiveUrl": "${RABBITMQ_BIGWIG_RX_URL:-amqp://localhost:5672}",
+  "bggApiRootUrl": "${BGG_API_ROOT_URL:-http://boardgamegeek.com/xmlapi2/}"
 }

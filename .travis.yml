@@ -11,4 +11,5 @@ services:
 before_script:
   - psql -c 'create database gameswap_test;' -U postgres
 
+install: mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V --quiet 
 script: mvn --quiet integration-test

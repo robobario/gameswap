@@ -1,6 +1,9 @@
 redirectAllToHttps: false
 googleSecret: xGxxgKAObIRUwOKycySkL9Fi
 jwtSecret: aliceinwonderlandhajiddiwhatnowzaheyheyhey
+rabbitMqReceiveUrl: amqp://localhost:5672
+rabbitMqSendUrl: amqp://localhost:5672
+rabbitMqEnabled: false
 
 database:
   driverClass: org.postgresql.Driver

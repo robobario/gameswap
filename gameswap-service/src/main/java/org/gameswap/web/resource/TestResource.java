@@ -1,7 +1,7 @@
 package org.gameswap.web.resource;
 
 import com.codahale.metrics.annotation.Timed;
-import org.gameswap.model.Role;
+import org.gameswap.web.model.Role;
 
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.GET;

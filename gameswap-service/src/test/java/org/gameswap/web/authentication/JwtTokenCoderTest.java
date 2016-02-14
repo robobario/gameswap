@@ -4,7 +4,7 @@ import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jwt.JWTClaimsSet;
 
 import org.assertj.core.api.MapAssert;
-import org.gameswap.model.Token;
+import org.gameswap.web.model.Token;
 import org.joda.time.DateTime;
 import org.junit.Test;
 

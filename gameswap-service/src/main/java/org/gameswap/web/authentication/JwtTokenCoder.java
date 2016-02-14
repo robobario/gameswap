@@ -9,7 +9,7 @@ import com.nimbusds.jose.crypto.MACVerifier;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 
-import org.gameswap.model.Token;
+import org.gameswap.web.model.Token;
 import org.joda.time.DateTime;
 
 import java.text.ParseException;

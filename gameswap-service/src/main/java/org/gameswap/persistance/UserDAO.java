@@ -2,11 +2,12 @@ package org.gameswap.persistance;
 
 import com.google.common.base.Optional;
 
-import org.gameswap.model.User;
+import org.gameswap.web.model.User;
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 import io.dropwizard.hibernate.AbstractDAO;
 
@@ -55,4 +56,5 @@ public class UserDAO extends AbstractDAO<User> {
                 .uniqueResult();
         return Optional.fromNullable(foundUser);
     }
+
 }

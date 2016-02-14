@@ -8,10 +8,10 @@ import com.nimbusds.jose.JOSEException;
 
 import org.apache.commons.lang3.StringUtils;
 import org.gameswap.application.GameswapConfiguration;
-import org.gameswap.model.Role;
-import org.gameswap.model.Token;
-import org.gameswap.model.User;
-import org.gameswap.model.User.Provider;
+import org.gameswap.web.model.Role;
+import org.gameswap.web.model.Token;
+import org.gameswap.web.model.User;
+import org.gameswap.web.model.User.Provider;
 import org.gameswap.persistance.UserDAO;
 import org.gameswap.security.PasswordService;
 import org.gameswap.web.authentication.JwtTokenCoder;

@@ -1,5 +1,6 @@
 package org.gameswap.application;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.io.ByteStreams;
 import com.google.common.io.Files;
 import io.dropwizard.configuration.ConfigurationParsingException;
@@ -18,7 +19,7 @@ public class WorkerTest {
         File tempDir = Files.createTempDir();
         File file = new File(tempDir, "config.json");
         ByteStreams.copy(this.getClass().getClassLoader().getResourceAsStream("config.json"), new FileOutputStream(file));
-        WorkerConfiguration configuration = Worker.loadConfig(file.getAbsolutePath());
+        WorkerConfiguration configuration = Worker.loadConfig(file.getAbsolutePath(), new ObjectMapper());
         assertEquals(configuration.getAwsGameswapDirectory(), "bucket/gameswap");
         assertEquals(configuration.getAwsKeyId(), "key");
         assertEquals(configuration.getAwsSecretAccessKey(), "secretKey");
@@ -31,17 +32,17 @@ public class WorkerTest {
         File tempDir = Files.createTempDir();
         File file = new File(tempDir, "config.json");
         ByteStreams.copy(this.getClass().getClassLoader().getResourceAsStream("config.json"), new FileOutputStream(file));
-        new Worker().run(new String[]{file.getAbsolutePath()});
+        new Worker(new String[]{file.getAbsolutePath()});
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void missingPropertiesArg() throws Exception {
-        new Worker().run(new String[]{});
+        new Worker(new String[]{});
     }
 
     @Test(expected = FileNotFoundException.class)
     public void nonExistentFile() throws Exception {
-        new Worker().run(new String[]{"noFile"});
+        new Worker(new String[]{"noFile"});
     }
 
     @Test(expected = ConfigurationParsingException.class)
@@ -49,6 +50,6 @@ public class WorkerTest {
         File tempDir = Files.createTempDir();
         File file = new File(tempDir, "bad.json");
         ByteStreams.copy(this.getClass().getClassLoader().getResourceAsStream("bad.json"), new FileOutputStream(file));
-        new Worker().run(new String[]{file.getAbsolutePath()});
+        new Worker(new String[]{file.getAbsolutePath()});
     }
 }
