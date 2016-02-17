@@ -2,26 +2,6 @@ package org.gameswap.application;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-
-import io.dropwizard.auth.basic.BasicCredentialAuthFilter;
-import org.eclipse.jetty.servlet.FilterHolder;
-import org.gameswap.model.User;
-import org.gameswap.persistance.UserDAO;
-import org.gameswap.web.HttpsForwardingFilter;
-import org.gameswap.web.authentication.JwtAuthFilter;
-import org.gameswap.web.authentication.JwtTokenCoder;
-import org.gameswap.web.resource.AuthResource;
-import org.gameswap.web.resource.ProfileResource;
-import org.gameswap.web.resource.TestResource;
-import org.gameswap.web.resource.UserResource;
-import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
-import org.hibernate.SessionFactory;
-
-import java.util.EnumSet;
-
-import javax.servlet.DispatcherType;
-import javax.ws.rs.client.Client;
-
 import io.dropwizard.Application;
 import io.dropwizard.assets.AssetsBundle;
 import io.dropwizard.auth.AuthDynamicFeature;
@@ -35,6 +15,21 @@ import io.dropwizard.jetty.MutableServletContextHandler;
 import io.dropwizard.migrations.MigrationsBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import org.eclipse.jetty.servlet.FilterHolder;
+import org.gameswap.model.User;
+import org.gameswap.persistance.UserDAO;
+import org.gameswap.web.HttpsForwardingFilter;
+import org.gameswap.web.authentication.JwtAuthFilter;
+import org.gameswap.web.authentication.JwtTokenCoder;
+import org.gameswap.web.resource.AuthResource;
+import org.gameswap.web.resource.TestResource;
+import org.gameswap.web.resource.UserResource;
+import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
+import org.hibernate.SessionFactory;
+
+import javax.servlet.DispatcherType;
+import javax.ws.rs.client.Client;
+import java.util.EnumSet;
 
 public class GameswapService extends Application<GameswapConfiguration> {
 
@@ -88,11 +83,13 @@ public class GameswapService extends Application<GameswapConfiguration> {
     public void run(GameswapConfiguration configuration, Environment environment) throws Exception {
         addFilters(configuration, environment);
         environment.jersey().setUrlPattern("/gameswap/*");
-        final Client client = new JerseyClientBuilder(environment).using(configuration.getJerseyClient()).build(getName());
+        final Client client = new JerseyClientBuilder(environment).using(configuration.getJerseyClient())
+                                                                  .build(getName());
         UserDAO dao = new UserDAO(getSessionFactory());
         JwtTokenCoder jwtTokenCoder = new JwtTokenCoder(configuration.getJwtSecret());
         registerResources(configuration, environment, client, dao, jwtTokenCoder);
-        environment.jersey().register(new AuthDynamicFeature(new JwtAuthFilter(dao, getSessionFactory(), jwtTokenCoder)));
+        environment.jersey()
+                   .register(new AuthDynamicFeature(new JwtAuthFilter(dao, getSessionFactory(), jwtTokenCoder)));
         environment.jersey().register(RolesAllowedDynamicFeature.class);
     }
 
@@ -110,7 +107,6 @@ public class GameswapService extends Application<GameswapConfiguration> {
     private void registerResources(GameswapConfiguration configuration, Environment environment, Client client, UserDAO dao, JwtTokenCoder jwtTokenCoder) {
         environment.jersey().register(new UserResource(dao));
         environment.jersey().register(new TestResource());
-        environment.jersey().register(new ProfileResource(dao));
         environment.jersey().register(new AuthResource(client, dao, configuration, jwtTokenCoder));
     }
 

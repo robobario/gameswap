@@ -1,8 +1,7 @@
-<div class="row">
+<div class="row" ng-controller="ProfileCtrl">
     <div class=" col s12 m6">
-        <div class="card-panel" ng-controller="ProfileCtrl">
-            <h3>Profile</h3>
-            <legend><i class="ion-clipboard"></i> Edit My Profile</legend>
+        <div class="card-panel">
+            <h3>{{user.displayName}}</h3>
             <form method="post" ng-submit="updateProfile()">
                 <div class="form-group">
                     <label class="control-label">Display Name</label>
@@ -12,18 +11,25 @@
                     <label class="control-label">Email Address</label>
                     <input type="email" class="form-control" ng-model="user.email" placeholder=""/>
                 </div>
-                <input type="submit" class="btn amber full-width" value="Update Information"/>
+                <input type="submit" class="btn full-width waves-effect waves-light amber" value="Update Information"/>
             </form>
+            <hr>
+            <input class="waves-effect waves-light btn red modal-trigger full-width"
+                   type="button" ng-click="deleteAccount()" value="Delete Account"/>
+        </div>
+    </div>
 
-            <h4>Accounts</h4>
-            <legend><i class="ion-link"></i> Linked Accounts</legend>
-            <a class="btn white text-black google-sign-in-btn" ng-if="user.google" ng-click="unlink('google')">
-                Unlink Google Account
-            </a>
-            <a class="btn white text-black google-sign-in-btn" ng-if="!user.google"
-               ng-click="authenticate('google')">
-                Link Google Account
-            </a>
+    <!-- Modal Structure -->
+    <div id="confirmDeleteModal" class="modal">
+        <div class="modal-content">
+            <h4>Are you sure you want to delete your account?</h4>
+        </div>
+        <div class="modal-footer">
+            <input type="button" class="waves-effect waves-green btn-flat green modal-btn"
+                   ng-click="confirmDelete()" value="Yes">
+            <input type="button" class="waves-effect waves-green btn-flat red modal-btn"
+                   ng-click="cancelDelete()" value="No">
         </div>
     </div>
 </div>
+

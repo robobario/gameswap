@@ -10,6 +10,7 @@
           media="screen,projection"/>
     <link href="bower_components/angular-toastr/dist/angular-toastr.min.css" rel="stylesheet">
     <link href="css/app.css" rel="stylesheet">
+    <link href="css/helpers.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 <body class="amber">
@@ -19,15 +20,15 @@
             <a ui-sref="home" class="brand-logo">GameSwap</a>
             <a href="#" data-activates="mobile-menu" class="button-collapse"><i class="material-icons">menu</i></a>
             <ul class="right hide-on-med-and-down cyan-text">
-                <li ng-show=""><a ui-sref="profile" ng-cloak>Profile</a></li>
                 <li ng-show="!isAuthenticated()"><a ui-sref="login" ng-cloak>Login</a></li>
                 <li ng-show="!isAuthenticated()"><a ui-sref="signup" ng-cloak>Sign up</a></li>
+                <li ng-show="isAuthenticated()"><a ui-sref="profile" ng-cloak>My Profile</a></li>
                 <li ng-show="isAuthenticated()"><a ui-sref="logout" ng-cloak>Logout</a></li>
             </ul>
             <ul class="side-nav" id="mobile-menu">
-                <li ng-show=""><a ng-click="click('login')" ng-cloak>Login</a></li>
+                <li ng-show="!isAuthenticated()"><a ng-click="click('login')" ng-cloak>Login</a></li>
                 <li ng-show="!isAuthenticated()"><a ng-click="click('signup')" ng-cloak>Sign up</a></li>
-                <li ng-show="isAuthenticated()"><a ng-click="click('profile')" ng-cloak>Profile</a></li>
+                <li ng-show="isAuthenticated()"><a ng-click="click('profile')" ng-cloak>My Profile</a></li>
                 <li ng-show="isAuthenticated()"><a ng-click="click('logout')" ng-cloak>Logout</a></li>
             </ul>
         </div>

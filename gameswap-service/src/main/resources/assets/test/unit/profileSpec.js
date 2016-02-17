@@ -1,12 +1,14 @@
 describe('ProfileCtrl', function () {
     var $httpBackend, $rootScope, controller, restangular;
-    var testUsersUrl = '/gameswap/profile/1';
+    var testUsersUrl = '/gameswap/users/1';
+    var user = {
+        id: 1,
+        displayName: "Ted"
+    };
 
     var mock = {
         getPayload: function () {
-            return {
-                sub: "1"
-            }
+            return {sub: "1"}
         },
         isAuthenticated: function() {
             return true;
@@ -44,10 +46,17 @@ describe('ProfileCtrl', function () {
 
     describe('get user', function () {
         it('retrieve known user data', function () {
-            $httpBackend.when('GET', testUsersUrl).respond({
-                displayName: "Ted"
-            });
+            $httpBackend.when('GET', testUsersUrl).respond(user);
             $httpBackend.expectGET(testUsersUrl);
+            $httpBackend.flush();
+            expect($rootScope.user.displayName).toEqual("Ted");
+        });
+
+        it('delete current user', function () {
+            $httpBackend.when('GET', testUsersUrl).respond(user);
+            $httpBackend.when('DELETE', testUsersUrl).respond(200);
+            $httpBackend.expectDELETE(testUsersUrl);
+            $rootScope.confirmDelete();
             $httpBackend.flush();
             expect($rootScope.user.displayName).toEqual("Ted");
         });

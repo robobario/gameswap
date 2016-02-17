@@ -6,7 +6,7 @@ angular.module("gameswap")
         maxOpened: 0,
         newestOnTop: true,
         positionClass: 'toast-top-right',
-        preventDuplicates: true,
+        preventDuplicates: false,
         preventOpenDuplicates: false,
         target: 'body'
     });
