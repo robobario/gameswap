@@ -12,7 +12,10 @@ describe('ProfileCtrl', function () {
         },
         isAuthenticated: function() {
             return true;
-        }
+        },
+        go: function(state) {},
+        logout: function() {}
+
     };
 
     // Set up the module
@@ -54,11 +57,13 @@ describe('ProfileCtrl', function () {
 
         it('delete current user', function () {
             $httpBackend.when('GET', testUsersUrl).respond(user);
+            $httpBackend.flush();
+            spyOn($.fn, 'closeModal').and.callThrough();
             $httpBackend.when('DELETE', testUsersUrl).respond(200);
             $httpBackend.expectDELETE(testUsersUrl);
             $rootScope.confirmDelete();
             $httpBackend.flush();
-            expect($rootScope.user.displayName).toEqual("Ted");
+            expect($.fn.closeModal).toHaveBeenCalled();
         });
     });
 });

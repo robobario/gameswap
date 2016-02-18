@@ -1,10 +1,10 @@
 angular.module('gameswap')
     .controller('ProfileCtrl', function ($scope, $auth, Restangular, $state, toastr) {
+        $scope.user = {};
         if(!$auth.isAuthenticated()) {
             $state.go("login");
         }
         var userId = $auth.getPayload().sub;
-        $scope.user = {};
         Restangular.setBaseUrl("/gameswap");
         Restangular.one("users", userId).get().then(function(user){
             $scope.user = user;

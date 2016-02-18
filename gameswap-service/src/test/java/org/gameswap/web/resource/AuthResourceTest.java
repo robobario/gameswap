@@ -1,12 +1,10 @@
 package org.gameswap.web.resource;
 
-import com.google.common.base.Charsets;
 import com.google.common.base.Optional;
-import com.google.common.io.CharStreams;
-
+import com.google.gson.JsonObject;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jwt.JWTClaimsSet;
-
+import io.dropwizard.testing.junit.ResourceTestRule;
 import org.eclipse.jetty.http.HttpStatus;
 import org.gameswap.application.GameswapConfiguration;
 import org.gameswap.model.Role;
@@ -15,32 +13,21 @@ import org.gameswap.persistance.UserDAO;
 import org.gameswap.security.PasswordService;
 import org.gameswap.web.authentication.JwtTokenCoder;
 import org.glassfish.jersey.client.JerseyClient;
-import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
-
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.text.ParseException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
-import io.dropwizard.testing.junit.ResourceTestRule;
+import java.io.IOException;
+import java.text.ParseException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class AuthResourceTest {
 
@@ -54,15 +41,15 @@ public class AuthResourceTest {
     private static Client client = mock(JerseyClient.class);
     @ClassRule
     public static final ResourceTestRule resources = ResourceTestRule.builder()
-            .addResource(new AuthResource(client, dao, config, JWT_TOKEN_CODER))
-            .addProvider(new ContextInjectableProvider<>(HttpServletRequest.class, request))
-            .build();
+                                                                     .addResource(new AuthResource(client, dao, config, JWT_TOKEN_CODER))
+                                                                     .addProvider(new ContextInjectableProvider<>(HttpServletRequest.class, request))
+                                                                     .build();
 
 
     @Before
     public void setup() {
         reset(dao);
-        User user = createUser(KNOWN_USER, PASSWORD_HASHED);
+        User user = Api.createUser(KNOWN_USER, PASSWORD_HASHED);
         when(dao.findByName(anyString())).thenReturn(Optional.absent());
         when(dao.findByName(eq(KNOWN_USER))).thenReturn(Optional.of(user));
     }
@@ -70,78 +57,78 @@ public class AuthResourceTest {
 
     @Test
     public void testLoginSuccessful() throws IOException {
-        User user = createUser(KNOWN_USER, PASSWORD);
+        User user = Api.createUser(KNOWN_USER, PASSWORD);
         Response response = requestLogin(user);
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK_200);
-        assertThat(getStringResponse(response)).contains("token");
+        assertThat(Api.helpers().getStringResponse(response)).contains("token");
         verify(dao).findByName(KNOWN_USER);
     }
 
     @Test
     public void testLoginUnSuccessful_BadPassword() throws IOException {
-        User user = createUser(KNOWN_USER, "badpassword");
+        User user = Api.createUser(KNOWN_USER, "badpassword");
         Response response = requestLogin(user);
         assertThat(response.getStatus()).isEqualTo(HttpStatus.UNAUTHORIZED_401);
-        assertThat(getStringResponse(response)).contains(AuthResource.LOGGING_ERROR_MSG);
+        assertThat(Api.helpers().getStringResponse(response)).contains(AuthResource.LOGGING_ERROR_MSG);
         verify(dao).findByName(KNOWN_USER);
     }
 
     @Test
     public void testLoginUnSuccessful_BadLogin() throws IOException {
-        User user = createUser("otherUser", PASSWORD);
+        User user = Api.createUser("otherUser", PASSWORD);
         Response response = requestLogin(user);
         assertThat(response.getStatus()).isEqualTo(HttpStatus.UNAUTHORIZED_401);
-        assertThat(getStringResponse(response)).contains(AuthResource.LOGGING_ERROR_MSG);
+        assertThat(Api.helpers().getStringResponse(response)).contains(AuthResource.LOGGING_ERROR_MSG);
         verify(dao).findByName("otherUser");
     }
 
     @Test
     public void testSignUpUnsuccessful_UserExists() throws IOException {
-        User user = createUser(KNOWN_USER, "password");
+        User user = Api.createUser(KNOWN_USER, "password");
         Response response = requestSignup(user);
         assertThat(response.getStatus()).isEqualTo(HttpStatus.UNAUTHORIZED_401);
-        assertThat(getStringResponse(response)).contains(AuthResource.USERNAME_EXISTS);
+        assertThat(Api.helpers().getStringResponse(response)).contains(AuthResource.USERNAME_EXISTS);
         verify(dao).findByName(KNOWN_USER);
     }
 
     @Test
     public void testSignUpUnsuccessful_PasswordTooShort() throws IOException {
-        User user = createUser("unknownUser", "pass1");
+        User user = Api.createUser("unknownUser", "pass1");
         Response response = requestSignup(user);
         assertThat(response.getStatus()).isEqualTo(422);
-        assertThat(getStringResponse(response)).contains("password size must be between 6 and 100");
+        assertThat(Api.helpers().getStringResponse(response)).contains("password size must be between 6 and 100");
     }
 
     @Test
     public void testSignupUnsuccessful_UsernameTooShort() throws IOException {
-        User user = createUser("user1", PASSWORD);
+        User user = Api.createUser("user1", PASSWORD);
         Response response = requestSignup(user);
         assertThat(response.getStatus()).isEqualTo(422);
-        assertThat(getStringResponse(response)).contains("username size must be between 6 and 60");
+        assertThat(Api.helpers().getStringResponse(response)).contains("username size must be between 6 and 60");
     }
 
     @Test
     public void testSignupUnsuccessful_EmptyUsername() throws IOException {
-        User user = createUser("", PASSWORD);
+        User user = Api.createUser("", PASSWORD);
         Response response = requestSignup(user);
         assertThat(response.getStatus()).isEqualTo(422);
-        assertThat(getStringResponse(response)).contains("username size must be between 6 and 60");
+        assertThat(Api.helpers().getStringResponse(response)).contains("username size must be between 6 and 60");
     }
 
     @Test
     public void testSignupUnsuccessful_EmptyPassword() throws IOException {
-        User user = createUser("newUser", "");
+        User user = Api.createUser("newUser", "");
         Response response = requestSignup(user);
         assertThat(response.getStatus()).isEqualTo(422);
-        assertThat(getStringResponse(response)).contains("password size must be between 6 and 100");
+        assertThat(Api.helpers().getStringResponse(response)).contains("password size must be between 6 and 100");
     }
 
     @Test
     public void testSignUpSuccessful() throws IOException, ParseException, JOSEException {
-        User newUser = createUser("newUser", PASSWORD_HASHED);
+        User newUser = Api.createUser("newUser", PASSWORD_HASHED);
         when(dao.save(any(User.class))).thenReturn(newUser);
 
-        User userToSignUp = createUser("newUser", PASSWORD);
+        User userToSignUp = Api.createUser("newUser", PASSWORD);
         Response response = requestSignup(userToSignUp);
         assertThat(response.getStatus()).isEqualTo(HttpStatus.CREATED_201);
         verify(dao).findByName("newUser");
@@ -149,7 +136,7 @@ public class AuthResourceTest {
 
     @Test
     public void testLoginToken() throws Exception {
-        User user = createUser(KNOWN_USER, PASSWORD);
+        User user = Api.createUser(KNOWN_USER, PASSWORD);
         Response response = requestLogin(user);
         JWTClaimsSet claimsSet = getJwtClaimsSetFromResponse(response);
         assertThat(claimsSet.getClaims()).containsKeys("sub", "name", "role");
@@ -160,10 +147,10 @@ public class AuthResourceTest {
 
     @Test
     public void testSignUpToken() throws Exception {
-        User newUser = createUser("newUser", PASSWORD_HASHED);
+        User newUser = Api.createUser("newUser", PASSWORD_HASHED);
         when(dao.save(any(User.class))).thenReturn(newUser);
 
-        User userToSignUp = createUser("newUser", PASSWORD);
+        User userToSignUp = Api.createUser("newUser", PASSWORD);
         Response response = requestSignup(userToSignUp);
         JWTClaimsSet claimsSet = getJwtClaimsSetFromResponse(response);
         assertThat(claimsSet.getClaims()).containsKeys("sub", "name", "role");
@@ -174,40 +161,22 @@ public class AuthResourceTest {
 
 
     private JWTClaimsSet getJwtClaimsSetFromResponse(Response response) throws IOException, ParseException, JOSEException {
-        JSONObject jsonObject = getJsonResponse(response);
-        String token = jsonObject.getString("token");
+        JsonObject jsonObject = (JsonObject) Api.helpers().getJsonResponse(response);
+        String token = jsonObject.get("token").getAsString();
         return JWT_TOKEN_CODER.decodeToken("Authorization: " + token);
     }
 
     private Response requestLogin(User user) {
         Entity entity = Entity.entity(user, MediaType.APPLICATION_JSON_TYPE);
         return resources.client().target("/auth/login").request(MediaType.APPLICATION_JSON_TYPE)
-                .post(entity);
+                        .post(entity);
     }
 
     private Response requestSignup(User user) {
         Entity entity = Entity.entity(user, MediaType.APPLICATION_JSON_TYPE);
         return resources.client().target("/auth/signup").request(MediaType.APPLICATION_JSON_TYPE)
-                .post(entity);
-    }
-
-    private JSONObject getJsonResponse(Response response) throws IOException {
-        String stringResponse = getStringResponse(response);
-        return new JSONObject(stringResponse);
-    }
-
-    private String getStringResponse(Response response) throws IOException {
-        InputStreamReader stream = new InputStreamReader((ByteArrayInputStream) response.getEntity(), Charsets.UTF_8);
-        return CharStreams.toString(stream);
+                        .post(entity);
     }
 
 
-    private User createUser(String username, String password) {
-        User user = new User();
-        user.setUsername(username);
-        user.setDisplayName(username);
-        user.setPassword(password);
-        user.setRole(Role.USER);
-        return user;
-    }
 }

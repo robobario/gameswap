@@ -25,6 +25,7 @@ module.exports = function (config) {
             'app/bower_components/angular-toastr/dist/angular-toastr.tpls.min.js',
             'app/bower_components/restangular/dist/restangular.min.js',
             'app/bower_components/jquery/dist/jquery.min.js',
+            'app/bower_components/Materialize/dist/js/materialize.min.js',
             'app/bower_components/satellizer/satellizer.min.js',
             'app/js/app.js',
             'app/js/**/*.js',
