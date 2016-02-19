@@ -77,6 +77,9 @@ public class User {
         this.email = email;
     }
 
+    public String getGoogle() {
+        return google;
+    }
 
     public String getRole() {
         return role;

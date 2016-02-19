@@ -1,6 +1,7 @@
 redirectAllToHttps: false
 googleSecret: ${GOOGLE_SECRET:-fakefakefake}
 jwtSecret: ${JWT_SECRET:-aliceinwonderlandhajiddiwhatnowzaheyheyhey}
+socketReadTimeoutMillis: 1000
 
 database:
   driverClass: org.postgresql.Driver

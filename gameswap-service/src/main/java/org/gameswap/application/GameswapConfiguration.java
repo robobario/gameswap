@@ -35,6 +35,11 @@ public class GameswapConfiguration extends Configuration {
     @JsonProperty
     private String jwtSecret;
 
+    @Valid
+    @NotNull
+    @JsonProperty
+    private int socketReadTimeoutMillis;
+
     public DataSourceFactory getDataSourceFactory() {
         return database;
     }
@@ -65,5 +70,9 @@ public class GameswapConfiguration extends Configuration {
 
     public String getJwtSecret() {
         return jwtSecret;
+    }
+
+    public int getSocketReadTimeoutMillis() {
+        return socketReadTimeoutMillis;
     }
 }

@@ -24,6 +24,7 @@ import org.gameswap.web.authentication.JwtTokenCoder;
 import org.gameswap.web.resource.AuthResource;
 import org.gameswap.web.resource.TestResource;
 import org.gameswap.web.resource.UserResource;
+import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 import org.hibernate.SessionFactory;
 
@@ -85,6 +86,7 @@ public class GameswapService extends Application<GameswapConfiguration> {
         environment.jersey().setUrlPattern("/gameswap/*");
         final Client client = new JerseyClientBuilder(environment).using(configuration.getJerseyClient())
                                                                   .build(getName());
+        client.property(ClientProperties.READ_TIMEOUT, configuration.getSocketReadTimeoutMillis());
         UserDAO dao = new UserDAO(getSessionFactory());
         JwtTokenCoder jwtTokenCoder = new JwtTokenCoder(configuration.getJwtSecret());
         registerResources(configuration, environment, client, dao, jwtTokenCoder);
