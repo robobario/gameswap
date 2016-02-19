@@ -5,7 +5,6 @@ angular.module('gameswap')
                 .then(function () {
                     toastr.success('You have successfully signed in!');
                     $state.go('home');
-                    console.log($auth.getPayload());
                 })
                 .catch(function (error) {
                     toastr.error(error.data.message, error.status);

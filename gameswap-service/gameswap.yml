@@ -1,6 +1,7 @@
 redirectAllToHttps: false
 googleSecret: ${GOOGLE_SECRET:-fakefakefake}
 jwtSecret: ${JWT_SECRET:-aliceinwonderlandhajiddiwhatnowzaheyheyhey}
+socketReadTimeoutMillis: 1000
 
 database:
   driverClass: org.postgresql.Driver
@@ -64,12 +65,12 @@ logging:
     - type: console
     - type: file
       # The file to which current statements will be logged.
-      currentLogFilename: /var/log/gameswap/gameswap.log
+      currentLogFilename: /tmp/log/gameswap/gameswap.log
 
       # When the log file rotates, the archived log will be renamed to this and gzipped. The
       # %d is replaced with the previous day (yyyy-MM-dd). Custom rolling windows can be created
       # by passing a SimpleDateFormat-compatible format as an argument: "%d{yyyy-MM-dd-hh}".
-      archivedLogFilenamePattern: /var/log/gameswap/gameswap-%d.log
+      archivedLogFilenamePattern: /tmp/log/gameswap/gameswap-%d.log
 
       # The number of archived files to keep.
       archivedFileCount: 5
