@@ -1,7 +1,7 @@
 package org.gameswap.web.resource;
 
-import org.gameswap.model.Role;
-import org.gameswap.model.User;
+import org.gameswap.web.model.Role;
+import org.gameswap.web.model.User;
 
 public class Api {
 

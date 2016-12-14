@@ -36,4 +36,21 @@
             </column>
         </addColumn>
     </changeSet>
+    <changeSet id="3" author="robobario">
+        <addColumn tableName="users">
+            <column name="bgg_user_name" type="varchar(255)" defaultValue="null">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="users">
+            <column name="bgg_verified" type="varchar(255)" defaultValue="false">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="users">
+            <column name="last_one_time_password" type="varchar(6)" defaultValue="null">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
 </databaseChangeLog>

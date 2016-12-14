@@ -1,4 +1,4 @@
-package org.gameswap.model;
+package org.gameswap.web.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Objects;
@@ -41,6 +41,15 @@ public class User {
 
     @Column(name = "role")
     private String role;
+
+    @Column(name = "bgg_user_name")
+    private String bggUserName;
+
+    @Column(name = "bgg_verified")
+    private boolean bggVerified;
+
+    @Column(name = "last_one_time_password", length = 6)
+    private String lastOneTimePassword;
 
 
     public long getId() {
@@ -142,6 +151,30 @@ public class User {
 
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
+    }
+
+    public String getLastOneTimePassword() {
+        return lastOneTimePassword;
+    }
+
+    public void setLastOneTimePassword(String lastOneTimePassword) {
+        this.lastOneTimePassword = lastOneTimePassword;
+    }
+
+    public boolean isBggVerified() {
+        return bggVerified;
+    }
+
+    public void setBggVerified(boolean bggVerified) {
+        this.bggVerified = bggVerified;
+    }
+
+    public String getBggUserName() {
+        return bggUserName;
+    }
+
+    public void setBggUserName(String bggUserName) {
+        this.bggUserName = bggUserName;
     }
 
 

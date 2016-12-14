@@ -1,0 +1,31 @@
+version: '2'
+
+services:
+  postgres:
+    image: postgres:9.5.5
+    environment:
+      - POSTGRES_DB=gameswap_test
+  rabbitmq:
+    image: rabbitmq:3.6.6
+  web:
+    build: 
+     context: ./gameswap-service
+     dockerfile: Dockerfile
+    ports:
+      - "9000:8080"
+    links:
+      - postgres
+      - rabbitmq
+    environment:
+      - JDBC_DATABASE_URL=jdbc:postgresql://postgres:5432/gameswap_test?prepareThreshold=0&user=postgres
+      - RABBITMQ_BIGWIG_TX_URL=amqp://rabbitmq:5672
+      - RABBITMQ_BIGWIG_RX_URL=amqp://rabbitmq:5672
+  worker:
+    build: 
+     context: ./gameswap-worker
+     dockerfile: ./Dockerfile
+    links:
+      - rabbitmq
+    environment:
+      - RABBITMQ_BIGWIG_TX_URL=amqp://rabbitmq:5672
+      - RABBITMQ_BIGWIG_RX_URL=amqp://rabbitmq:5672

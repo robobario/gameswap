@@ -3,14 +3,13 @@ package org.gameswap.persistance;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
 
-import org.gameswap.model.User;
+import org.gameswap.web.model.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.context.internal.ManagedSessionContext;
-import org.hibernate.service.ServiceRegistryBuilder;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -19,7 +18,6 @@ import org.junit.Test;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toSet;
 import static org.junit.Assert.*;

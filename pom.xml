@@ -17,6 +17,7 @@
     <modules>
         <module>gameswap-service</module>
         <module>gameswap-worker</module>
+        <module>gameswap-messaging</module>
     </modules>
 
     <properties>

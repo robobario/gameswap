@@ -5,7 +5,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import io.dropwizard.testing.junit.ResourceTestRule;
 import org.eclipse.jetty.http.HttpStatus;
-import org.gameswap.model.User;
+import org.gameswap.web.model.User;
 import org.gameswap.persistance.UserDAO;
 import org.gameswap.security.PasswordService;
 import org.junit.Before;

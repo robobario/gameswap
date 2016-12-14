@@ -1,4 +1,4 @@
-package org.gameswap.model;
+package org.gameswap.web.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

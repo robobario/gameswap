@@ -1,1 +1,2 @@
 web: java $JAVA_OPTS -jar gameswap-service/target/gameswap-service-0.0.1-SNAPSHOT.jar db test gameswap-service/gameswap.yml && java $JAVA_OPTS -Ddw.redirectAllToHttps=true -Ddw.server.applicationConnectors[0].port=$PORT -jar gameswap-service/target/gameswap-service-0.0.1-SNAPSHOT.jar server gameswap-service/gameswap.yml
+worker: java $JAVA_OPTS -jar gameswap-worker/target/gameswap-worker-0.0.1-SNAPSHOT.jar server gameswap-worker/gameswap.json

@@ -1,4 +1,4 @@
-package org.gameswap.model;
+package org.gameswap.web.model;
 
 public final class Role {
     public static final String ADMIN = "ADMIN";

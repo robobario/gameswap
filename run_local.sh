@@ -1,3 +1,4 @@
 #!/bin/sh
-
-mvn exec:exec -pl gameswap-service
+./build.sh -DskipTests -T1.0C $@
+docker-compose build 
+docker-compose up

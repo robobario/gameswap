@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import io.dropwizard.Configuration;
 import io.dropwizard.client.JerseyClientConfiguration;
 import io.dropwizard.db.DataSourceFactory;
@@ -29,6 +30,21 @@ public class GameswapConfiguration extends Configuration {
     @NotNull
     @JsonProperty
     private String googleSecret;
+
+    @Valid
+    @NotNull
+    @JsonProperty
+    private String rabbitMqSendUrl;
+
+    @Valid
+    @NotNull
+    @JsonProperty
+    private String rabbitMqReceiveUrl;
+
+    @Valid
+    @NotNull
+    @JsonProperty
+    private Boolean rabbitMqEnabled;
 
     @Valid
     @NotNull
@@ -74,5 +90,29 @@ public class GameswapConfiguration extends Configuration {
 
     public int getSocketReadTimeoutMillis() {
         return socketReadTimeoutMillis;
+    }
+
+    public void setRabbitMqSendUrl(String rabbitMqSendUrl) {
+        this.rabbitMqSendUrl = rabbitMqSendUrl;
+    }
+
+    public void setRabbitMqReceiveUrl(String rabbitMqReceiveUrl) {
+        this.rabbitMqReceiveUrl = rabbitMqReceiveUrl;
+    }
+
+    public String getRabbitMqSendUrl() {
+        return rabbitMqSendUrl;
+    }
+
+    public String getRabbitMqReceiveUrl() {
+        return rabbitMqReceiveUrl;
+    }
+
+    public Boolean isRabbitMqEnabled() {
+        return rabbitMqEnabled;
+    }
+
+    public void setRabbitMqEnabled(Boolean rabbitMqEnabled) {
+        this.rabbitMqEnabled = rabbitMqEnabled;
     }
 }

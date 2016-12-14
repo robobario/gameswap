@@ -3,8 +3,8 @@ package org.gameswap.application;
 
 import com.nimbusds.jose.JOSEException;
 
-import org.gameswap.model.Token;
-import org.gameswap.model.User;
+import org.gameswap.web.model.Token;
+import org.gameswap.web.model.User;
 import org.gameswap.web.authentication.JwtTokenCoder;
 import org.glassfish.jersey.client.JerseyClientBuilder;
 import org.hibernate.Query;
