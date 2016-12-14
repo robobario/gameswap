@@ -4,5 +4,6 @@
   "jdbcUrl": "jdbc://url",
   "awsGameswapDirectory": "bucket/gameswap",
   "rabbitMqSendUrl": "${RABBITMQ_BIGWIG_TX_URL:-localhost:5672}",
-  "rabbitMqReceiveUrl": "${RABBITMQ_BIGWIG_RX_URL:-localhost:5672}"
+  "rabbitMqReceiveUrl": "${RABBITMQ_BIGWIG_RX_URL:-localhost:5672}",
+  "bggApiRootUrl":"hello"
 }

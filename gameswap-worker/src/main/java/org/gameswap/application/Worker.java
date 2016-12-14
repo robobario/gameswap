@@ -1,8 +1,10 @@
 package org.gameswap.application;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import io.dropwizard.configuration.*;
 import io.dropwizard.validation.BaseValidator;
+
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.gameswap.messaging.MessageConsumer;
@@ -27,7 +29,7 @@ public class Worker {
 
     public Worker(String[] args) {
         try {
-            if(args.length == 0){
+            if (args.length == 0) {
                 throw new IllegalArgumentException("expect at least one argument");
             }
             ObjectMapper objectMapper = new ObjectMapper();
@@ -39,15 +41,15 @@ public class Worker {
             consumer.register(this::onVerify, VerifyRequest.class, "verify");
             httpClient = HttpClients.createDefault();
             userVerifier = new UserVerifier(httpClient, config);
-        }catch (Exception e){
-            throw  new ExceptionInInitializerError(e);
+        } catch (Exception e) {
+            throw new ExceptionInInitializerError(e);
         }
     }
 
     public static void main(String[] args) {
         try {
             new Worker(args);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -55,7 +57,7 @@ public class Worker {
     private Result onVerify(VerifyRequest request) {
         logger.info("request verification recieved: {}", request);
         boolean result = userVerifier.verify(request);
-        sender.send(new VerifyResponse(request.getAccountId(), request.getBggUserName(), result),"verifyResponse", VerifyResponse.class);
+        sender.send(new VerifyResponse(request.getAccountId(), request.getBggUserName(), result), "verifyResponse", VerifyResponse.class);
         logger.info("request verification result: {}", result);
         return new Result(true, null);
     }

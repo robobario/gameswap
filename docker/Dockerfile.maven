@@ -1,0 +1,4 @@
+from maven:3.3.9-jdk-8
+ARG user
+RUN useradd -ms /bin/bash $user
+USER $user
